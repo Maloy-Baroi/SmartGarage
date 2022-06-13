@@ -1,0 +1,122 @@
+.all-services {
+    margin-bottom: 100px;
+}
+
+.smart-services-header {
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    color: #db592d;
+    cursor: pointer;
+    margin: 10px auto;
+    position: relative;
+    padding-bottom: 13px;
+    text-align: center !important;
+}
+
+.smart-services-header:after {
+    position: absolute;
+    left: 50%;
+    content: "";
+    height: 1px;
+    background: #db592d;
+    transition: all 0.5s linear;
+    width: 0;
+    bottom: 0;
+}
+
+.smart-services-header:hover:after {
+    width: 400px;
+    margin-left: -200px;
+}
+
+@media only screen and (max-width: 320px) {
+    .smart-services-header {
+        font-size: 18px;
+    }
+
+    .smart-services-header:hover:after {
+        width: 100px;
+        margin-left: -10px;
+    }
+}
+
+@media only screen and (max-width: 375px) {
+    .smart-services-header {
+        font-size: 18px;
+    }
+
+    .smart-services-header:hover:after {
+        width: 200px;
+        margin-left: -50px;
+    }
+}
+
+@media only screen and (max-width: 425px) {
+    .smart-services-header {
+        font-size: 19px;
+    }
+
+    .smart-services-header:hover:after {
+        width: 400px;
+        margin-left: -200px;
+    }
+}
+
+.hover {
+    position: relative;
+    width: 277px;
+    height: 202px;
+    margin: 30px 0;
+    transition: all 0.6s ease 0s;
+    box-shadow: rgb(219 89 45) -14px 14px 0 -6px;
+}
+
+.hover:hover {
+    transition: all 0.4s ease 0s;
+    transform: translate(-15px, 15px);
+    box-shadow: rgb(219 89 45) -1px 1px 0 0;
+}
+
+.hover img {
+    width: 277px !important;
+    margin: 0;
+    height: 100% !important;
+}
+
+.service-details {
+    margin: 30px 0;
+}
+
+.service-details .service-name {
+    font-size: 24px;
+    text-align: center;
+}
+
+.service-details ul li {
+    text-align: center;
+    list-style: none;
+}
+
+p.service-cost {
+    text-align: center !important;
+    color: darkred;
+}
+
+.logo-image {
+    display: none;
+}
+
+@media only screen and (max-width: 720px) {
+    .hover {
+        display: none;
+    }
+
+    .logo-image {
+        display: block;
+    }
+
+    .service-details {
+        border: 1px solid #ffc107;
+    }
+}
