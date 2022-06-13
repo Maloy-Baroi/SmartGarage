@@ -1,0 +1,843 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load static %}
+{% block main %}
+    <style>
+        .hero {
+            height: 550px;
+            background-image: url('{% static "images/banner_1.jpg" %}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 30px 50px -6px #6e6e6e;
+        }
+
+        /*
+        .hero .overlay {
+            background-color: #000;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            z-index: 1;
+            left: 0;
+            right: 0;
+            top: 0;
+            opacity: 0.5;
+        }
+         */
+
+        .hero .content {
+            color: #fff;
+            z-index: 2;
+            position: absolute;
+            right: 25px;
+        }
+
+
+        form {
+            background-color: #ffffff;
+            text-align: right;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        label {
+            display: none;
+        }
+
+        input, select {
+            border: 1px solid green !important;
+            margin: 10px 0;
+        }
+
+        input:hover, select:hover {
+            border: 1px solid #f54f4f !important;
+        }
+
+        #id-addition-services-textarea {
+            width: 100%;
+            border-radius: 0.25rem;
+            border: 1px solid green !important;
+        }
+
+        #id-addition-services-textarea:hover {
+            border: 1px solid #f54f4f !important;
+        }
+
+        select {
+            margin: 10px 0;
+            height: 33px;
+        }
+
+        .service-selector {
+            display: inline-block;
+        }
+
+        @media only screen and (max-width: 720px) {
+            .hero .content {
+                justify-content: center;
+            }
+
+            form {
+                padding: 5px;
+            }
+
+            input, select {
+                border: 1px solid green;
+                margin: 10px 11px;
+                width: 90% !important;
+            }
+        }
+
+        @media screen and (max-width: 375px) {
+            .hero .content {
+                justify-content: center;
+            }
+
+            form {
+                padding: 0 !important;
+            }
+
+            input, select {
+                border: 1px solid green;
+                margin: 10px 11px;
+                width: 90% !important;
+                align-content: center;
+            }
+        }
+
+        /* service card */
+        .sp-card-2 {
+            width: 230px;
+            border: 1px solid #f9f9f9;
+            text-align: left;
+
+            -webkit-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.3);
+            -moz-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.3);
+            -o-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.3);
+            box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.3);
+        }
+
+        .sp-card-2 .overlap {
+            background: #3f51b57a;
+            width: inherit;
+            height: 0;
+            position: absolute;
+            text-align: center;
+            opacity: 0;
+
+            -webkit-transition: all .5s ease-in-out;
+            -moz-transition: all .5s ease-in-out;
+            -o-transition: all .5s ease-in-out;
+            transition: all .5s ease-in-out;
+        }
+
+        .sp-card-2:hover .overlap {
+            opacity: 1;
+            height: 204px;
+        }
+
+        .sp-card-2 .overlap a {
+            position: relative;
+            top: 50%;
+            text-decoration: none;
+            color: #673AB7;
+            padding: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            background: #fff;
+        }
+
+        .sp-card-2 .card-image {
+            text-align: center;
+        }
+
+        .sp-card-2 .card-image img {
+            height: 200px;
+        }
+
+        .sp-card-2 .card-content {
+            padding: 20px;
+        }
+
+        .sp-card-2 .card-content .card-title {
+            font-weight: 600;
+        }
+
+        .sp-card-2 .card-content .price-start {
+            font-weight: 600;
+            color: #673AB7;
+            float: right;
+        }
+
+        .sp-card-2 .card-content .cloth-colors span:not(:nth-child(1)) {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 40px;
+        }
+
+        .smart-services-header {
+            display: flex;
+            -webkit-box-pack: center;
+            justify-content: center;
+            color: #db592d;
+            cursor: pointer;
+            margin: 10px auto;
+            position: relative;
+            padding-bottom: 13px;
+            text-align: center !important;
+        }
+
+        .smart-services-header:after {
+            position: absolute;
+            left: 50%;
+            content: "";
+            height: 1px;
+            background: #db592d;
+            transition: all 0.5s linear;
+            width: 0;
+            bottom: 0;
+        }
+
+        .smart-services-header:hover:after {
+            width: 400px;
+            margin-left: -200px;
+        }
+
+        @media only screen and (max-width: 320px) {
+            .smart-services-header {
+                font-size: 18px;
+            }
+
+            .smart-services-header:hover:after {
+                width: 100px;
+                margin-left: -10px;
+            }
+
+            .loginform-group {
+                height: auto;
+            }
+        }
+
+        @media only screen and (max-width: 375px) {
+            .smart-services-header {
+                font-size: 18px;
+            }
+
+            .smart-services-header:hover:after {
+                width: 200px;
+                margin-left: -50px;
+            }
+
+            .loginform-group {
+                height: auto;
+            }
+        }
+
+        @media only screen and (max-width: 425px) {
+            .smart-services-header {
+                font-size: 19px;
+            }
+
+            .smart-services-header:hover:after {
+                width: 400px;
+                margin-left: -200px;
+            }
+
+            .loginform-group {
+                height: auto;
+            }
+        }
+
+        @media only screen and (max-width: 768px) {
+            .smart-services-header {
+                font-size: 21px;
+            }
+
+            .smart-services-header:hover:after {
+                width: 300px;
+                text-align: center;
+                margin-left: -150px;
+            }
+
+            .loginform-group {
+                height: auto;
+            }
+        }
+
+        .service-div {
+            margin-bottom: 50px;
+        }
+
+        .service-box {
+            text-align: center;
+            background: rgb(178, 186, 187);
+            padding: 10px;
+            border: 1px solid rgb(221, 221, 221);
+            box-shadow: rgb(187 187 187) 0 2px 2px 1px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            height: 99px;
+        }
+
+        .why-choose-us-div {
+            box-shadow: inset 0 40px 20px -6px rgba(49, 50, 51, 0.4);
+        }
+
+        .why-choose-us-div ul li {
+            font-size: 20px;
+            color: #222222;
+            font-weight: 300;
+            list-style: none;
+            padding: 8px;
+            font-family: "Lato", sans-serif;
+        }
+
+        /* Hover */
+        .hover {
+            position: relative;
+            width: 35vw;
+            height: auto;
+        {#margin: 0 6vmax 0;#} transition: all 0.6s ease 0s;
+            box-shadow: rgb(219 89 45) -14px 14px 0 -6px;
+        }
+
+        .hover:hover {
+            transition: all 0.4s ease 0s;
+            transform: translate(-15px, 15px);
+            box-shadow: rgb(219 89 45) -1px 1px 0 0;
+        }
+
+        @media only screen and (max-width: 1023px) {
+            .why-choose-us-div {
+                display: none !important;
+            }
+        }
+
+        .upcoming-service-box {
+            text-align: center;
+            background: transparent;
+            padding: 10px;
+            box-shadow: transparent;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            height: 99px;
+        }
+
+        .upcoming-service {
+            box-shadow: inset 0 40px 20px -6px rgba(49, 50, 51, 0.4);
+            display: none;
+        }
+
+        .app-image {
+            margin-left: -130px;
+        }
+
+        .download-app-info ul {
+            margin: 100px auto 40px 17%;
+        }
+
+        @media only screen and (min-width: 768px) {
+            .app-image {
+                margin-left: 0;
+            }
+        }
+
+        @media only screen and (max-width: 1022px) {
+            .app-image {
+                display: none;
+                margin-left: 0;
+            }
+
+            .download-app-info ul {
+                margin: 30px 0;
+                justify-content: center;
+            }
+        }
+
+
+        @media only screen and (max-width: 720px) {
+            .service-input {
+                width: 16px !important;
+                height: 16px !important;
+            }
+        }
+
+        .service-class {
+            display: block;
+            float: left;
+        }
+
+        .login-signup-social-button {
+            text-align: center;
+            justify-content: center;
+        }
+
+        #id-form-fields input {
+            width: 50%;
+            justify-content: center;
+            font-size: 1rem;
+            border-radius: 5px;
+            height: 40px;
+        }
+
+        .btn-login-other {
+            border: none;
+            border-radius: 0;
+        }
+
+        .btn-login-other:hover {
+            border: none;
+            background-color: rgba(184, 206, 255, 0.71);
+            color: #000000;
+        }
+
+        input {
+            width: 50%;
+            margin-left: 25%;
+            border: 2px solid black;
+            border-radius: 25px;
+        }
+
+        .sign-with-mobile-btn {
+            width: 300px;
+            height: 46px;
+            background-color: #c71f66;
+            color: white;
+            text-align: center;
+        }
+
+        @media screen and (max-width: 375px) {
+            .sign-with-mobile-btn {
+                width: 95%;
+            }
+        }
+    </style>
+
+    <div class="hero" id="id-background">
+        <!-- Modal -->
+        <div class="modal fade modal-lg" id="signupFormModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">FloatingMend</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Close"
+                                style="margin: -30px -30px auto auto; border-radius: 50%; background-color: white;"
+                        ></button>
+                    </div>
+                    <div class="modal-body" style="background-color: white; border-radius: 10px;">
+                        <div style="text-align: center" id="id-signup-button-extras">
+                            <p style="font-size: 20px; text-align: center;">
+                                Signup with
+                            </p>
+                            <button class="btn sign-with-mobile-btn"
+                                    onclick="document.getElementById('id-signup-button-extras').style.display='none';
+                            document.getElementById('id-signup-form').style.display='block';">
+                                Mobile Number
+                            </button>
+                            <br>
+                            <div class="row login-signup-social-button mt-3"
+                                 style="display: flex; justify-content: space-between;">
+                                <div class="col-md-6">
+                                    <button class="btn"
+                                            style="background-color: transparent; border: 1px solid rgba(0,0,0,0.54);">
+                                        <i class="fab fa-brands fa-facebook-square" style="color: #1876f2;"></i>
+                                        Facebook
+                                    </button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="btn float-left"
+                                            onclick="window.location.href='{% url "social:begin" "google-oauth2" %}'"
+                                            style="background-color: transparent; border: 1px solid rgba(0,0,0,0.54);">
+                                        <i class="fab fa-brands fa-google-plus" style="color: #1876f2;"></i> Google
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <form action="{% url 'App_auth:register' %}" class="form-group" method="post"
+                              id="id-signup-form"
+                              style="display: none;">
+                            {% csrf_token %}
+                            <fieldset class="form-group text-center" id="id-form-fields">
+                                {{ signupForm|crispy }}
+                            </fieldset>
+                            <div class="form-group text-center">
+                                <button class="btn btn-warning" type="submit">Submit</button>
+                            </div>
+                            <div style="text-align: center; margin-top: 10px;">
+                                <button class="btn text-center btn-login-other" type="button"
+                                        onclick="document.getElementById('id-signup-button-extras').style.display='block';
+                                                 document.getElementById('id-signup-form').style.display='none';">
+                                    Go Back
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade modal-lg" id="signinFormModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">FloatingMend</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Close"
+                                style="margin: -30px -30px auto auto; border-radius: 50%; background-color: white;"
+                        ></button>
+                    </div>
+                    <div class="modal-body" style="background-color: white; border-radius: 10px;">
+                        <div style="text-align: center" id="id-button-extras">
+                            <p style="font-size: 20px; text-align: center;">
+                                Login with
+                            </p>
+                            <button class="btn sign-with-mobile-btn"
+                                    onclick="document.getElementById('id-button-extras').style.display='none';
+                            document.getElementById('id-login-form').style.display='block'; ">
+                                Mobile Number
+                            </button>
+                            <br>
+                            <div class="row login-signup-social-button mt-3"
+                                 style="display: flex; justify-content: space-between;">
+                                <div class="col-md-6">
+                                    <button class="btn"
+                                            style="background-color: transparent; border: 1px solid rgba(0,0,0,0.54);">
+                                        <i class="fab fa-brands fa-facebook-square" style="color: #1876f2;"></i>
+                                        Facebook
+                                    </button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="btn float-left"
+                                            onclick="window.location.href='{% url "social:begin" "google-oauth2" %}'"
+                                            style="background-color: transparent; border: 1px solid rgba(0,0,0,0.54);">
+                                        <i class="fab fa-brands fa-google-plus" style="color: #1876f2;"></i> Google
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <form action="{% url 'App_auth:login' %}" class="form-group" method="post" id="id-login-form"
+                              style="display: none;">
+                            {% csrf_token %}
+                            <fieldset class="form-group text-center" id="id-form-fields">
+                                {{ loginForm|crispy }}
+                            </fieldset>
+                            <div class="form-group text-center">
+                                <button class="btn btn-warning" type="submit">Submit</button>
+                            </div>
+                            <div style="text-align: center; margin-top: 10px;">
+                                <button class="btn text-center btn-login-other" type="button"
+                                        onclick="document.getElementById('id-button-extras').style.display='block';
+                                                 document.getElementById('id-login-form').style.display='none';">
+                                    Login with other option
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--welcome-hero end -->
+
+    <div class="container" style="height: 50px;">
+
+    </div>
+
+    <div class="service-div">
+        <div class="container">
+            <div class="container">
+                <h1 class="smart-services-header">
+                    Smart Garage Services
+                </h1>
+                <br>
+                <div class="row justify-content-center">
+                    {% for serv in services %}
+                        <div class="col-md-3">
+                            <div class="service-box" style="">
+                                <p>
+                                    <img src="{{ serv.logo.url }}" alt="logo" height="40" width="40">
+                                </p>
+                                <p style="font-size: 14px; font-weight: 600; text-align: center; color: #000000;">
+                                    {{ serv.name }}
+                                </p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="why-choose-us-div">
+        <br><br>
+        <div class="container">
+            <div class="container">
+                <h1 class="smart-services-header">
+                    Smart Garage Parts and Accessories
+                </h1>
+            </div>
+            <div class="row p-5">
+                <br>
+                <div class="row justify-content-center">
+                    {% for serv in services %}
+                        <div class="col-md-3">
+                            <div class="service-box" style="">
+                                <p>
+                                    <img src="{{ serv.logo.url }}" alt="logo" height="40" width="40">
+                                </p>
+                                <p style="font-size: 14px; font-weight: 600; text-align: center; color: #000000;">
+                                    {{ serv.name }}
+                                </p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="why-choose-us-div">
+        <br><br>
+        <div class="container">
+            <div class="container">
+                <h1 class="smart-services-header">
+                    Why Choose Us
+                </h1>
+            </div>
+            <div class="row p-5">
+                <div class="col-md-6">
+                    <h2 class="smart-services-header" style="color: black; margin-bottom: 22px">
+                        Quality Services
+                    </h2>
+                    <ul>
+                        <li>
+                            <img src="{% static 'images/symbolic/tick_mark.png' %}" alt="Tick Mark" width="18">
+                            45 Checkpoint inspection
+                        </li>
+                        <li>
+                            <img src="{% static 'images/symbolic/tick_mark.png' %}" alt="Tick Mark" width="18">
+                            Service warranty for 10 days on Smart Garage
+                        </li>
+                        <li>
+                            <img src="{% static 'images/symbolic/tick_mark.png' %}" alt="Tick Mark" width="18">
+                            Quick Service booking from Smart Garage Application
+                        </li>
+                        <li>
+                            <img src="{% static 'images/symbolic/tick_mark.png' %}" alt="Tick Mark" width="18">
+                            Professionally trained mechanics support
+                        </li>
+                        <li>
+                            <img src="{% static 'images/symbolic/tick_mark.png' %}" alt="Tick Mark" width="18">
+                            World class ambience in Smart Garage customer lounge
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <div class="btn hover">
+                        <img src="{% static 'images/Services Images/qualityService.jpg' %}" alt="Quality services"
+                             style="width: 100%">
+                    </div>
+                </div>
+            </div>
+            <div class="row p-5">
+                <div class="col-md-6">
+                    <div class="btn hover">
+                        <img src="{% static 'images/Services Images/qualityProduct.jpg' %}" alt="Quality Products"
+                             style="width: 100%">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h2 class="smart-services-header" style="color: black; margin-bottom: 22px">
+                        Quality Products
+                    </h2>
+                    <ul>
+                        <li>
+                            <img src="{% static 'images/symbolic/tick_mark.png' %}" alt="Tick Mark" width="18">
+                            Best quality products on affordable prices
+                        </li>
+                        <li>
+                            <img src="{% static 'images/symbolic/tick_mark.png' %}" alt="Tick Mark" width="18">
+                            Assured warranty on Pikpart Spare Parts
+                        </li>
+                        <li>
+                            <img src="{% static 'images/symbolic/tick_mark.png' %}" alt="Tick Mark" width="18">
+                            Quick Service booking from Smart Garage Application
+                        </li>
+                        <li>
+                            <img src="{% static 'images/symbolic/tick_mark.png' %}" alt="Tick Mark" width="18">
+                            Claim Online-warranty from Smart Garage Application
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="service-div upcoming-service">
+        <div class="container">
+            <div class="container">
+                <br><br>
+                <h1 class="smart-services-header">
+                    Upcoming Services
+                </h1>
+                <br>
+                <div class="row justify-content-center">
+                    <div class="col-md-3">
+                        <div class="upcoming-service-box" style="">
+                            <p>
+                                <img src="{% static 'images/upcoming/Ecommerce.svg' %}" alt="logo" height="40"
+                                     width="40">
+                            </p>
+                            <p style="font-size: 14px; font-weight: 600; text-align: center; color: #000000;">
+                                E-Commerce
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="upcoming-service-box" style="">
+                            <p>
+                                <img src="{% static 'images/upcoming/E-Vehicle.png' %}" alt="logo" height="40"
+                                     width="40">
+                            </p>
+                            <p style="font-size: 14px; font-weight: 600; text-align: center; color: #000000;">
+                                E-Vehicle
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="upcoming-service-box" style="">
+                            <p>
+                                <img src="{% static 'images/upcoming/Emergency.svg' %}" alt="logo" height="40"
+                                     width="40">
+                            </p>
+                            <p style="font-size: 14px; font-weight: 600; text-align: center; color: #000000;">
+                                Emergency Service
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="upcoming-service-box" style="">
+                            <p>
+                                <img src="{% static 'images/upcoming/Reward.svg' %}" alt="logo" height="40"
+                                     width="40">
+                            </p>
+                            <p style="font-size: 14px; font-weight: 600; text-align: center; color: #000000;">
+                                Reward
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="upcoming-service-box" style="">
+                            <p>
+                                <img src="{% static 'images/upcoming/payment.png' %}" alt="logo" height="40"
+                                     width="40">
+                            </p>
+                            <p style="font-size: 14px; font-weight: 600; text-align: center; color: #000000;">
+                                Payment
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="service-div" style="display: none;">
+        <div class="container">
+            <div class="container">
+                <br><br>
+                <h1 class="smart-services-header">
+                    Download Our App
+                </h1>
+                <br>
+                <div class="row">
+                    <div class="col-md-5 app-image">
+                        <img src="{% static 'images/upcoming/downloadApp.png' %}" alt="Tick Mark" width="100%">
+                    </div>
+                    <div class="col-md-7 download-app-info">
+                        <ul>
+                            <li>
+                                No more worry about Cost and Quality
+                            </li>
+                            <li>
+                                Transparency with e-JobCard, claim & settle warranty using app
+                            </li>
+                            <li>
+                                Monitoring of Annual maintenance plan using app
+                            </li>
+                            <li>
+                                Service Transparency with Live Streaming using app
+                            </li>
+                        </ul>
+
+                        <div class="row">
+                            <h3 class="smart-services-header">
+                                Vehicle maintenance with Smart Garage
+                            </h3>
+                            <br> <br>
+                            <img class="justify-content-center"
+                                 src="{% static 'images/upcoming/download_googlePlay.png' %}"
+                                 alt="Download from google playstore"
+                                 style="width: 220px; height: auto; margin: 5% 25%;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let userName = document.getElementById('id_username');
+        let password1 = document.getElementById('id_password1');
+        let password2 = document.getElementById('id_password2');
+        let password = document.getElementById('id_password');
+        let hint_id_password1 = document.getElementById('hint_id_password1');
+        let hint_id_password2 = document.getElementById('hint_id_password2');
+        userName.placeholder = 'Phone Number';
+        password1.placeholder = 'Password';
+        password2.placeholder = 'Confirm Password';
+        hint_id_password1.style.display = 'none';
+        hint_id_password2.style.display = 'none';
+        /*
+        let bookingDate = document.querySelector("#id_booking_date");
+        bookingDate.placeholder = 'Booking Date';
+        bookingDate.setAttribute('onfocus', '(this.type="date")');
+
+
+        let additionalServ = document.getElementById('id-addition-services-textarea');
+        let serviceType = document.getElementById('id_service_type');
+        let service_type;
+
+        function additionalServices(serv) {
+            service_type = serviceType.value + ", "
+            if ((!additionalServ.value.includes(serv)) && (service_type.normalize() !== serv.normalize())) {
+                additionalServ.value += serv;
+            }
+        }
+         */
+    </script>
+    <script>
+        function changeBg() {
+            const images = [
+                "{% static 'images/banner_2.1.jpg' %}",
+                "{% static 'images/banner_1.jpg' %}",
+                "{% static 'images/banner_3.jpg' %}",
+                "{% static 'images/banner_4.jpg' %}",
+            ]
+
+            const section = document.querySelector("#id-background");
+            let image = images[Math.floor(Math.random() * images.length)];
+            section.style.transitionDuration = "3s";
+            section.style.transitionDelay = "1s";
+            section.style.backgroundImage = `url('${image}')`;
+        }
+
+        setInterval(changeBg, 5000);
+    </script>
+{% endblock %}
+

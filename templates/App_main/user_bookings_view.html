@@ -1,0 +1,652 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block main %}
+    <style>
+        .sidebar {
+            height: 100%;
+            width: 85px;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: rgb(34, 34, 34);
+            transition: 0.5s;
+            overflow-x: hidden;
+            padding-top: 60px;
+            white-space: nowrap;
+            margin-top: 50px;
+        }
+
+        .sidebar a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 13px;
+            color: #ffffff;
+            display: block;
+        }
+
+        .-active {
+            background-color: rgb(228, 107, 51);
+        }
+
+        .sidebar a:hover {
+            color: #f1f1f1;
+        }
+
+        main .sidebar {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+        .material-icons,
+        .icon-text {
+            vertical-align: middle;
+        }
+
+        .material-icons {
+            padding-bottom: 3px;
+            margin-right: 30px;
+        }
+
+        #main {
+            padding: 16px;
+            margin-left: 85px;
+            transition: margin-left 0.5s;
+        }
+
+        @media screen and (max-height: 450px) {
+            .sidebar {
+                padding-top: 15px;
+            }
+
+            .sidebar a {
+                font-size: 13px;
+                color: #ffffff;
+            }
+
+            #main {
+                padding: 16px 0;
+                margin-left: 0;
+            }
+        }
+
+        @media screen and (max-width: 767px) {
+            .sidebar {
+                padding-top: 15px;
+                display: none;
+            }
+
+            .sidebar a {
+                font-size: 13px;
+                color: #ffffff;
+            }
+        }
+
+        @media screen and (min-width: 768px) {
+            .sidebar {
+                padding-top: 15px;
+                display: block;
+            }
+        }
+
+        .service-box {
+            text-align: center;
+            background: rgb(255, 255, 255);
+            padding: 10px;
+            margin-bottom: 30px;
+            max-width: 250px;
+            width: auto;
+            height: 85px;
+            cursor: pointer;
+            box-shadow: rgb(170 178 189) 0 3px 2px;
+            border: 1px solid rgb(204, 204, 204);
+            border-radius: 8px;
+        }
+
+        .service-box .plain-text {
+            font-family: "Lato", sans-serif !important;
+            font-size: 14px !important;
+            font-weight: 400 !important;
+        }
+
+        .service-box-icon img {
+            vertical-align: middle !important;
+            width: 24px;
+            height: 24px;
+        }
+
+        /* table starts */
+        table {
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        table caption {
+            font-size: 1.5em;
+            margin: .5em 0 .75em;
+        }
+
+        table tr {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            padding: .35em;
+        }
+
+        table th {
+            border: 1px solid black;
+            background-color: #ffffff;
+        }
+
+        table th,
+        table td {
+            padding: .625em;
+            text-align: center;
+        }
+
+        table th {
+            font-size: .85em;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+        }
+
+        table #heading-tbody {
+            display: none;
+        }
+
+        @media screen and (max-width: 600px) {
+            table {
+                border: 0;
+            }
+
+            table caption {
+                font-size: 1.3em;
+            }
+
+            table thead {
+                border: none;
+                clip: rect(0 0 0 0);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0;
+                position: absolute;
+                width: 1px;
+            }
+
+            table th {
+                border: 1px solid black !important;
+                background-color: #ffffff !important;
+            }
+
+            table tr {
+            {#border-bottom: 3px solid #ddd;#} display: block;
+                margin-bottom: .625em;
+            }
+
+            table td {
+                border-bottom: 1px solid #ddd;
+                display: block;
+                font-size: .8em;
+                text-align: right;
+            }
+
+            table td::before {
+                /*
+                * aria-label has no advantage, it won't be read inside a table
+                content: attr(aria-label);
+                */
+                content: attr(data-label);
+                float: left;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+
+            table td:last-child {
+                border-bottom: 0;
+            }
+
+            table #heading-tbody {
+                display: block;
+            }
+
+            .data-table {
+                margin-top: 10px;
+                margin-bottom: 100px;
+            }
+        }
+
+        .data-table {
+            margin-top: 40px;
+            margin-bottom: 100px;
+        }
+
+        #id-tbody-for-requested-data-content,
+        #id-tbody-for-accepted-data-content,
+        #id-tbody-for-confirmed-data-content,
+        #id-tbody-for-ready-data-content,
+        #id-tbody-for-rejected-data-content,
+        #id-tbody-for-ongoing-data-content {
+            width: 218px !important;
+        }
+
+        /* table end */
+    </style>
+    {% block extra_toggle_button %}
+        <button class="navbar-toggler" type="button" onclick="toggleSlider()">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    {% endblock %}
+    {% include 'App_main/customer_dashboard_base.html' %}
+    <div class="container">
+        <div id="main">
+            <div class="service-div">
+                <div class="container">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div>
+            <table>
+                <thead>
+                <tr>
+                    <th scope="col" id="id-req" onclick="activeFunction('id-req')" style="cursor:pointer;">
+                        Requested
+                    </th>
+                    <th scope="col" id="id-acc" onclick="activeFunction('id-acc')" style="cursor:pointer;">
+                        Accepted
+                    </th>
+                    <th scope="col" id="id-conf" onclick="activeFunction('id-conf')" style="cursor:pointer;">
+                        Confirmed
+                    </th>
+                    <th scope="col" id="id-go" onclick="activeFunction('id-go')" style="cursor:pointer;">
+                        On going
+                    </th>
+                    <th scope="col" id="id-red" onclick="activeFunction('id-red')" style="cursor:pointer;">
+                        Ready
+                    </th>
+                    <th scope="col" id="id-rej" onclick="activeFunction('id-rej')" style="cursor:pointer;">
+                        Rejected
+                    </th>
+                </tr>
+                </thead>
+                <tbody id="heading-tbody">
+                <tr>
+                    <td data-label="Requested" id="id-td-req" onclick="activeFunctionForSmallScreen('id-td-req')">----
+                    </td>
+                    <td data-label="Accepted" id="id-td-acc" onclick="activeFunctionForSmallScreen('id-td-acc')">----
+                    </td>
+                    <td data-label="Confirmed" id="id-td-conf" onclick="activeFunctionForSmallScreen('id-td-conf')">
+                        ----
+                    </td>
+                    <td data-label="Going" id="id-td-go" onclick="activeFunctionForSmallScreen('id-td-go')">----</td>
+                    <td data-label="Ready" id="id-td-red" onclick="activeFunctionForSmallScreen('id-td-red')">----</td>
+                    <td data-label="Rejected" id="id-td-rej" onclick="activeFunctionForSmallScreen('id-td-rej')">----
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="container mt-5 mb-3" id="id-data-content" style="display: none;">
+            <div>
+                <h2 class="text-center text-capitalize">Booking Status</h2>
+                <div id="id-tbody-for-requested-data-content" style="display: none;">
+                    {% for book in requested %}
+                        <p>
+                            <td data-label="Bike Type" id="id-bike-type">
+                                {{ book.bike_type }}
+                            </td>
+                            <td data-label="Service Name" id="id-service-name">
+                                {{ book.service_name }}
+                            </td>
+                            <td data-label="Service Type" id="id-service-type">
+                                {{ book.service_type }}
+                            </td>
+                            <td data-label="Additional Services" id="id-additional-service">
+                                {{ book.additional_services }}
+                            </td>
+                            <td data-label="Booking Date" id="id-booking-date">
+                                {{ book.booking_date }}
+                            </td>
+                        </p>
+                    {% endfor %}
+                </div>
+                <div id="id-tbody-for-accepted-data-content" style="display: none;">
+                    {% for book in accepted %}
+                        <tr>
+                            <td data-label="Bike Type" id="id-bike-type">
+                                {{ book.bike_type }}
+                            </td>
+                            <td data-label="Service Name" id="id-service-name">
+                                {{ book.service_name }}
+                            </td>
+                            <td data-label="Service Type" id="id-service-type">
+                                {{ book.service_type }}
+                            </td>
+                            <td data-label="Additional Services" id="id-additional-service">
+                                {{ book.additional_services }}
+                            </td>
+                            <td data-label="Booking Date" id="id-booking-date">
+                                {{ book.booking_date }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </div>
+                <div id="id-tbody-for-confirmed-data-content" style="display: none;">
+                    {% for book in confirmed %}
+                        <tr>
+                            <td data-label="Bike Type" id="id-bike-type">
+                                {{ book.bike_type }}
+                            </td>
+                            <td data-label="Service Name" id="id-service-name">
+                                {{ book.service_name }}
+                            </td>
+                            <td data-label="Service Type" id="id-service-type">
+                                {{ book.service_type }}
+                            </td>
+                            <td data-label="Additional Services" id="id-additional-service">
+                                {{ book.additional_services }}
+                            </td>
+                            <td data-label="Booking Date" id="id-booking-date">
+                                {{ book.booking_date }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </div>
+                <div id="id-tbody-for-ready-data-content" style="display: none;">
+                    {% for book in ready %}
+                        <tr>
+                            <td data-label="Bike Type" id="id-bike-type">
+                                {{ book.bike_type }}
+                            </td>
+                            <td data-label="Service Name" id="id-service-name">
+                                {{ book.service_name }}
+                            </td>
+                            <td data-label="Service Type" id="id-service-type">
+                                {{ book.service_type }}
+                            </td>
+                            <td data-label="Additional Services" id="id-additional-service">
+                                {{ book.additional_services }}
+                            </td>
+                            <td data-label="Booking Date" id="id-booking-date">
+                                {{ book.booking_date }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </div>
+                <div id="id-tbody-for-rejected-data-content" style="display: none;">
+                    {% for book in rejected %}
+                        <tr>
+                            <td data-label="Bike Type" id="id-bike-type">
+                                {{ book.bike_type }}
+                            </td>
+                            <td data-label="Service Name" id="id-service-name">
+                                {{ book.service_name }}
+                            </td>
+                            <td data-label="Service Type" id="id-service-type">
+                                {{ book.service_type }}
+                            </td>
+                            <td data-label="Additional Services" id="id-additional-service">
+                                {{ book.additional_services }}
+                            </td>
+                            <td data-label="Booking Date" id="id-booking-date">
+                                {{ book.booking_date }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </div>
+                <div id="id-tbody-for-ongoing-data-content" style="display: none;">
+                    {% for book in ongoing %}
+                        <tr>
+                            <td data-label="Bike Type" id="id-bike-type">
+                                {{ book.bike_type }}
+                            </td>
+                            <td data-label="Service Name" id="id-service-name">
+                                {{ book.service_name }}
+                            </td>
+                            <td data-label="Service Type" id="id-service-type">
+                                {{ book.service_type }}
+                            </td>
+                            <td data-label="Additional Services" id="id-additional-service">
+                                {{ book.additional_services }}
+                            </td>
+                            <td data-label="Booking Date" id="id-booking-date">
+                                {{ book.booking_date }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div>
+            <table class="data-table">
+                <thead>
+                <tr>
+                    <th scope="col">Bike Details</th>
+                    <th scope="col">Problems</th>
+                    <th scope="col">Repair Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td data-label="Bike details">
+
+                    </td>
+                    <td data-label="Problems">
+
+                    </td>
+                    <td data-label="Repair Date">
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let id_req = document.getElementById('id-req');
+        let id_acc = document.getElementById('id-acc');
+        let id_conf = document.getElementById('id-conf');
+        let id_go = document.getElementById('id-go');
+         let id_red = document.getElementById('id-red');
+        let id_rej = document.getElementById('id-rej');
+        let id_td_req = document.getElementById('id-td-req');
+        let id_td_acc = document.getElementById('id-td-acc');
+        let id_td_conf = document.getElementById('id-td-conf');
+        let id_td_go = document.getElementById('id-td-go');
+        let id_td_red = document.getElementById('id-td-red');
+        let id_td_rej = document.getElementById('id-td-rej');
+        let id_data_table_content = document.getElementById('id-data-content');
+        const id_tbody_for_requested_data_content = document.getElementById('id-tbody-for-requested-data-content');
+        const id_tbody_for_accepted_data_content = document.getElementById('id-tbody-for-accepted-data-content');
+        const id_tbody_for_confirmed_data_content = document.getElementById('id-tbody-for-confirmed-data-content');
+        const id_tbody_for_ready_data_content = document.getElementById('id-tbody-for-ready-data-content');
+        const id_tbody_for_rejected_data_content = document.getElementById('id-tbody-for-rejected-data-content');
+        const id_tbody_for_ongoing_data_content = document.getElementById('id-tbody-for-ongoing-data-content');
+
+        function activeFunction(id_name) {
+            id_data_table_content.style.display = 'block';
+            if (id_name === "id-req") {
+                id_req.style.backgroundColor = '#e46b33';
+                id_acc.style.backgroundColor = '#ffffff';
+                id_conf.style.backgroundColor = '#ffffff';
+                id_go.style.backgroundColor = '#ffffff';
+                id_red.style.backgroundColor = '#ffffff';
+                id_rej.style.backgroundColor = '#ffffff';
+                /* data showcasing */
+                id_tbody_for_requested_data_content.style.display = 'block';
+                id_tbody_for_accepted_data_content.style.display = 'none';
+                id_tbody_for_confirmed_data_content.style.display = 'none';
+                id_tbody_for_ready_data_content.style.display = 'none';
+                id_tbody_for_rejected_data_content.style.display = 'none';
+                id_tbody_for_ongoing_data_content.style.display = 'none';
+            } else if (id_name === "id-acc") {
+                id_req.style.backgroundColor = '#ffffff';
+                id_acc.style.backgroundColor = '#e46b33';
+                id_conf.style.backgroundColor = '#ffffff';
+                id_go.style.backgroundColor = '#ffffff';
+                id_red.style.backgroundColor = '#ffffff';
+                id_rej.style.backgroundColor = '#ffffff';
+                /* data showcasing */
+                id_tbody_for_requested_data_content.style.display = 'none';
+                id_tbody_for_accepted_data_content.style.display = 'block';
+                id_tbody_for_confirmed_data_content.style.display = 'none';
+                id_tbody_for_ready_data_content.style.display = 'none';
+                id_tbody_for_rejected_data_content.style.display = 'none';
+                id_tbody_for_ongoing_data_content.style.display = 'none';
+            } else if (id_name === "id-conf") {
+                id_req.style.backgroundColor = '#ffffff';
+                id_acc.style.backgroundColor = '#ffffff';
+                id_conf.style.backgroundColor = '#e46b33';
+                id_go.style.backgroundColor = '#ffffff';
+                id_red.style.backgroundColor = '#ffffff';
+                id_rej.style.backgroundColor = '#ffffff';
+                /* data showcasing */
+                id_tbody_for_requested_data_content.style.display = 'none';
+                id_tbody_for_accepted_data_content.style.display = 'none';
+                id_tbody_for_confirmed_data_content.style.display = 'block';
+                id_tbody_for_ready_data_content.style.display = 'none';
+                id_tbody_for_rejected_data_content.style.display = 'none';
+                id_tbody_for_ongoing_data_content.style.display = 'none';
+            } else if (id_name === "id-red") {
+                id_req.style.backgroundColor = '#ffffff';
+                id_acc.style.backgroundColor = '#ffffff';
+                id_conf.style.backgroundColor = '#ffffff';
+                id_go.style.backgroundColor = '#ffffff';
+                id_red.style.backgroundColor = '#e46b33';
+                id_rej.style.backgroundColor = '#ffffff';
+                /* data showcasing */
+                id_tbody_for_requested_data_content.style.display = 'none';
+                id_tbody_for_accepted_data_content.style.display = 'none';
+                id_tbody_for_confirmed_data_content.style.display = 'none';
+                id_tbody_for_ready_data_content.style.display = 'block';
+                id_tbody_for_rejected_data_content.style.display = 'none';
+                id_tbody_for_ongoing_data_content.style.display = 'none';
+            } else if (id_name === "id-rej") {
+                id_req.style.backgroundColor = '#ffffff';
+                id_acc.style.backgroundColor = '#ffffff';
+                id_conf.style.backgroundColor = '#ffffff';
+                id_go.style.backgroundColor = '#ffffff';
+                id_red.style.backgroundColor = '#ffffff';
+                id_rej.style.backgroundColor = '#e46b33';
+                /* data showcasing */
+                id_tbody_for_requested_data_content.style.display = 'none';
+                id_tbody_for_accepted_data_content.style.display = 'none';
+                id_tbody_for_confirmed_data_content.style.display = 'none';
+                id_tbody_for_ready_data_content.style.display = 'none';
+                id_tbody_for_rejected_data_content.style.display = 'block';
+                id_tbody_for_ongoing_data_content.style.display = 'none';
+            } else if (id_name === "id-go") {
+                id_req.style.backgroundColor = '#ffffff';
+                id_acc.style.backgroundColor = '#ffffff';
+                id_conf.style.backgroundColor = '#ffffff';
+                id_go.style.backgroundColor = '#e46b33';
+                id_red.style.backgroundColor = '#ffffff';
+                id_rej.style.backgroundColor = '#ffffff';
+                /* data showcasing */
+                id_tbody_for_requested_data_content.style.display = 'none';
+                id_tbody_for_accepted_data_content.style.display = 'none';
+                id_tbody_for_confirmed_data_content.style.display = 'none';
+                id_tbody_for_ready_data_content.style.display = 'none';
+                id_tbody_for_rejected_data_content.style.display = 'none';
+                id_tbody_for_ongoing_data_content.style.display = 'block';
+            }
+        }
+
+        function activeFunctionForSmallScreen(id_name) {
+            if (id_name === "id-td-req") {
+                id_td_req.style.backgroundColor = '#e46b33';
+                id_td_acc.style.backgroundColor = '#ffffff';
+                id_td_conf.style.backgroundColor = '#ffffff';
+                id_td_go.style.backgroundColor = '#ffffff';
+                id_td_red.style.backgroundColor = '#ffffff';
+                id_td_rej.style.backgroundColor = '#ffffff';
+            } else if (id_name === "id-td-acc") {
+                id_td_req.style.backgroundColor = '#ffffff';
+                id_td_acc.style.backgroundColor = '#e46b33';
+                id_td_conf.style.backgroundColor = '#ffffff';
+                id_td_go.style.backgroundColor = '#ffffff';
+                id_td_red.style.backgroundColor = '#ffffff';
+                id_td_rej.style.backgroundColor = '#ffffff';
+            } else if (id_name === "id-td-conf") {
+                id_td_req.style.backgroundColor = '#ffffff';
+                id_td_acc.style.backgroundColor = '#ffffff';
+                id_td_conf.style.backgroundColor = '#e46b33';
+                id_td_go.style.backgroundColor = '#ffffff';
+                id_td_red.style.backgroundColor = '#ffffff';
+                id_td_rej.style.backgroundColor = '#ffffff';
+            } else if (id_name === "id-td-go") {
+                id_td_req.style.backgroundColor = '#ffffff';
+                id_td_acc.style.backgroundColor = '#ffffff';
+                id_td_conf.style.backgroundColor = '#ffffff';
+                id_td_go.style.backgroundColor = '#e46b33';
+                id_td_red.style.backgroundColor = '#ffffff';
+                id_td_rej.style.backgroundColor = '#ffffff';
+            } else if (id_name === "id-td-red") {
+                id_td_req.style.backgroundColor = '#ffffff';
+                id_td_acc.style.backgroundColor = '#ffffff';
+                id_td_conf.style.backgroundColor = '#ffffff';
+                id_td_go.style.backgroundColor = '#ffffff';
+                id_td_red.style.backgroundColor = '#e46b33';
+                id_td_rej.style.backgroundColor = '#ffffff';
+            } else if (id_name === "id-td-rej") {
+                id_td_req.style.backgroundColor = '#ffffff';
+                id_td_acc.style.backgroundColor = '#ffffff';
+                id_td_conf.style.backgroundColor = '#ffffff';
+                id_td_go.style.backgroundColor = '#ffffff';
+                id_td_red.style.backgroundColor = '#ffffff';
+                id_td_rej.style.backgroundColor = '#e46b33';
+            }
+
+        }
+    </script>
+    <script>
+        var mini = true;
+        let counter = 0;
+        let sideBar = document.getElementById("mySidebar");
+        let main_bar = document.getElementById("main");
+
+        function toggleSidebar() {
+            if (mini) {
+                sideBar.style.width = "250px";
+                main_bar.style.marginLeft = "250px";
+                this.mini = false;
+            } else {
+                sideBar.style.width = "85px";
+                main_bar.style.marginLeft = "85px";
+                this.mini = true;
+            }
+        }
+
+        function toggleSlider() {
+            if (counter === 0) {
+                sideBar.style.display = 'block';
+                sideBar.style.width = "250px";
+                counter = 1;
+            } else {
+                sideBar.style.display = 'none';
+                counter = 0;
+            }
+        }
+    </script>
+{% endblock %}
+{% block customer_active_box %}
+    dashboard.classList.remove('-active');
+    bookings.classList.add('-active');
+    invoices.classList.remove('-active');
+    warranty.classList.remove('-active');
+    contactUs.classList.remove('-active');
+{% endblock %}
+

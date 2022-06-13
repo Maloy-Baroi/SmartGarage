@@ -1,0 +1,204 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>FLOATINGMEND - Bike Repairing Booking Website</title>
+    <style>
+        :root {
+            --primary: #FD5D14;
+            --secondary: #FDBE33;
+            --light: #F4F6F8;
+            --dark: #040F28;
+        }
+
+        .bg-dark {
+            background-color: #040F28 !important;
+        }
+
+        .navbar-dark .navbar-nav .nav-link {
+            position: relative;
+            padding: 15px 15px;
+            font-size: 18px;
+            text-transform: uppercase;
+            color: var(--light);
+            outline: none;
+            transition: .5s;
+        }
+
+        .navbar-dark .navbar-nav .nav-link:hover,
+        .navbar-dark .navbar-nav .nav-link.active {
+            color: var(--primary);
+        }
+
+        #navbar-logo {
+            display: none;
+        }
+
+        #id-signup-login-minimized {
+            display: none;
+            padding: 0 50px;
+        }
+
+        @media only screen and (max-width: 991px) {
+            .navbar {
+                height: 120px;
+            }
+
+            #navbar-logo {
+                display: block;
+            }
+
+            #navbar-logo h1 span {
+                font-size: 20px !important;
+            }
+
+            #id-signup-login-minimized {
+                display: block;
+            }
+
+            .navbar-collapse {
+                background-color: #040F28 !important;
+                overflow-y: scroll;
+                -ms-overflow-y: scroll;
+                height: 300px;
+            }
+        }
+
+        .navbar-collapse {
+            background-color: #040F28 !important;
+        }
+    </style>
+</head>
+<body>
+<!-- Top Start -->
+<div class="container-fluid px-5 d-none d-lg-block" id="top-navbar">
+    <div class="row gx-5">
+        <div class="col-lg-4 text-center py-3">
+            <div class="d-inline-flex align-items-center">
+                <i class="bi bi-geo-alt fs-1 text-primary me-3"></i>
+                <div class="text-start">
+                    <a href="{% url 'App_main:home' %}" class="navbar-brand">
+                        <h1 class="m-0 display-4" style="font-size: 32px; color: #173a56">
+                            <img src="{% static 'img/logo.png' %}" alt="Logo" style="width: 65px; height: 45px;">
+                            {#                            <i class="bi bi-building text-primary me-2"></i>#}
+                            <span style="font-family: 'Monoton', cursive;">FLOATINGMEND</span>
+                        </h1>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 text-center border-start border-end py-3"
+             style="background-color: #FCE011; border-color: #FCE011;">
+            <div class="d-inline-flex align-items-center">
+                <i class="bi bi-envelope-open fs-1 text-primary me-3"></i>
+                <div class="text-start">
+                    {% if user.is_authenticated %}
+                        <h6 class="text-uppercase fw-bold"
+                            onclick="window.location.href='{% url "App_main:booking-view" %}'"
+                            style="cursor: pointer;">
+                            <i class="fa fa-hand-pointer-o" style="color: firebrick"></i>
+                            BOOKING ONLINE
+                        </h6>
+                    {% else %}
+                        <h6 class="text-uppercase fw-bold"
+                            onclick="alert('Please Login!')"
+                            style="cursor: pointer;">
+                            <i class="fa fa-hand-pointer-o" style="color: firebrick"></i>
+                            BOOKING ONLINE
+                        </h6>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 text-center py-3">
+            <div class="d-inline-flex align-items-center">
+                <i class="bi bi-phone-vibrate fs-1 text-primary me-3"></i>
+                <div class="text-start">
+                    {% if user.is_authenticated %}
+                        <h6 class="text-uppercase fw-bold" style="cursor: pointer;"
+                            onclick="window.location.href='{% url "App_main:profile-view" %}'">
+                            <i class="fas fa-user"></i>
+                            &nbsp; User
+                        </h6>
+                        <span style="cursor: pointer;" onclick="window.location.href='{% url "App_auth:logout" %}'">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </span>
+                    {% else %}
+                        <h6 class="text-uppercase fw-bold" style="cursor: pointer;"
+                            data-bs-toggle="modal" data-bs-target="#signupFormModal">
+                            <i class="fa fa-user-plus"></i>
+                            SIGNUP
+                        </h6>
+                        <span style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#signinFormModal">
+                            <i class="fas fa-fingerprint"></i>
+                            SIGN IN
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Topbar End -->
+<!-- Navbar Start -->
+<div class="container-fluid sticky-top bg-dark w-100">
+    <nav class="navbar navbar-expand-lg bg-dark bg-light-radial navbar-dark py-3 py-lg-0">
+        <a href="{% url 'App_main:home' %}" class="navbar-brand" id="navbar-logo">
+            <h1 class="m-0 display-4" style="font-size: 35px; color: #173a56;">
+                <img src="{% static 'img/logo.png' %}" alt="Logo" style="width: 65px; height: 45px;">
+                {#                            <i class="bi bi-building text-primary me-2"></i>#}
+                <span style="font-family: 'Monoton', cursive; color:#ffffff;">FLOATINGMEND</span>
+            </h1>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav mx-auto py-0">
+                <a href="{% url 'App_main:services' %}" id="id-service" class="nav-item nav-link">Repair & Service</a>
+                <a href="{% url 'App_main:parts-n-accessories' %}" id="id-parts" class="nav-item nav-link">Parts &
+                    Accessories</a>
+                <a href="{% url 'App_main:gallery' %}" id="id-gallery" class="nav-item nav-link">Workshop Gallery</a>
+                <a href="{% url 'App_main:campaign' %}" id="id-about" class="nav-item nav-link">About & Contact</a>
+                {#                <div class="nav-item dropdown">#}
+                {#                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>#}
+                {#                    <div class="dropdown-menu m-0">#}
+                {#                        <a href="#" class="dropdown-item">Our Project</a>#}
+                {#                        <a href="#" class="dropdown-item">The Team</a>#}
+                {#                        <a href="#" class="dropdown-item">Testimonial</a>#}
+                {#                        <a href="#" class="dropdown-item">Blog Grid</a>#}
+                {#                        <a href="#" class="dropdown-item">Blog Detail</a>#}
+                {#                    </div>#}
+                {#                </div>#}
+                {#                <a href="" class="nav-item nav-link bg-primary text-white px-5 ms-3 d-none d-lg-block">Get A Quote <i#}
+                {#                        class="bi bi-arrow-right"></i></a>#}
+                <p id="id-signup-login-minimized">
+                    <a href="" style="float:left;" data-bs-toggle="modal" data-bs-target="#signupFormModal">Signup</a>
+                    <a href="" style="float:right;" data-bs-toggle="modal" data-bs-target="#signinFormModal">Login</a>
+                </p>
+            </div>
+        </div>
+    </nav>
+</div>
+<!-- Navbar End -->
+{% block main %}
+{% endblock %}
+{% include 'footer.html' %}
+
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
+</body>
+</html>

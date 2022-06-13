@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block main %}
+    <link rel="stylesheet" href="{% static 'css/basicx.css' %}">
+
+    <style>
+        .kzPosH {
+            padding-top: 40px;
+            font-weight: 600;
+            text-align: center;
+            margin: 50px 0 30px;
+            position: relative;
+            user-select: none;
+            color: rgb(219, 89, 45);
+            font-size: 24px;
+        }
+
+        .image-container {
+            margin: 40px 0;
+            width: auto;
+            height: 150px;
+        }
+
+        span.cIOtuB {
+            text-align: left;
+            font-size: 16px;
+            padding-bottom: 5px;
+            font-weight: 600;
+            font-family: Lato, sans-serif;
+        }
+
+        p.giawKf {
+            padding-top: 3px;
+            color: rgb(34, 34, 34);
+            text-align: left;
+            padding-bottom: 20px;
+            font-family: Lato, sans-serif;
+        }
+
+        p.RYRLf {
+            color: rgb(38, 38, 38);
+            font-weight: 400;
+            font-size: 14px;
+            font-family: Lato, sans-serif;
+        }
+    </style>
+
+    <div class="container all-services">
+        <h1 class="smart-services-header kzPosH">
+            {{ part.name }}
+        </h1>
+        <div class="row">
+            <div class="col-md-6 col-sm-12 card-container maloy-card">
+                <div style="text-align: center;" class="image-container">
+                    <img src="{{ part.product_image.url }}" alt="Product Image">
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12 card-container maloy-card">
+                <div class="row">
+                    <span class="cIOtuB">Specifications</span>
+                    <p class="giawKf RYRLf">{{ part.specifications }}</p>
+                </div>
+                <div class="row">
+                    <span class="cIOtuB">Type</span>
+                    <p class="giawKf RYRLf">{{ part.type }}</p>
+                </div>
+                <div class="row">
+                    <span class="cIOtuB">Descriptions</span>
+                    <p class="giawKf RYRLf">{{ part.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

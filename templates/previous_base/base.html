@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    {% load crispy_forms_filters %}
+    {% load static %}
+    <title>Smart Garage BD</title>
+    <style>
+
+        /* Trying Navbar */
+        #main {
+            height: auto;
+        }
+
+        #Maloy-Baroi-nav {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            -webkit-box-orient: horizontal;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: row;
+            flex-direction: row;
+            width: 100%;
+            height: 50px;
+            -webkit-filter: drop-shadow(0 0 5px rgba(31, 31, 31, 0.1));
+            filter: drop-shadow(0 0 5px rgba(31, 31, 31, 0.1));
+            position: fixed;
+            bottom: 0;
+            z-index: 999;
+        }
+
+        .nav-slot {
+            -ms-flex-preferred-size: 20%;
+            flex-basis: 20%;
+            text-align: center;
+            height: 100%;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+        }
+
+        .Maloy-Baroi-navlink {
+            height: 35px;
+            -webkit-transition: 0.3s all;
+            -o-transition: 0.3s all;
+            transition: 0.3s all;
+            fill: #aab2bd;
+            border-radius: 50rem;
+            padding: 0.5rem 0.5rem;
+        }
+
+        .active {
+            fill: #2575fc;
+        }
+
+        .Maloy-Baroi-navlink:hover {
+            -webkit-transition: 0.3s all;
+            -o-transition: 0.3s all;
+            transition: 0.3s all;
+            background: rgba(31, 31, 31, 0.1);
+        }
+
+        .curve {
+            -ms-flex-preferred-size: auto !important;
+            flex-basis: auto !important;
+        }
+
+        .bg-white {
+            background: #db592d !important;
+        }
+
+        .floating-button {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            line-height: 4;
+            text-align: center;
+            border-radius: 50%;
+            bottom: 30px;
+            background-color: #db592d !important;
+            -webkit-box-shadow: 0 10px 6px -6px #777;
+            box-shadow: 0 10px 6px -6px #777;
+        {#z-index: 1;#} -webkit-transition: 0.3s all;
+            -o-transition: 0.3s all;
+            transition: 0.3s all;
+        }
+
+        .floating-button:hover {
+            bottom: 35px;
+            -webkit-transition: 0.3s all;
+            -o-transition: 0.3s all;
+            transition: 0.3s all;
+        }
+
+        .round-top-left {
+            border-top-left-radius: 15px;
+        }
+
+        .round-top-right {
+            border-top-right-radius: 15px;
+        }
+
+        /* End Trying Navbar */
+
+
+        .navbar {
+            background: #222222 !important;
+            padding: 5px 10px !important;
+        }
+
+        .nav-item {
+            font: 15px "Lato Black", sans-serif;
+            margin: 0 5px;
+            font-weight: 600 !important;
+        }
+
+        .nav-item a {
+            color: #FFFFFF !important;
+            padding: 4px 12px !important;
+            font-weight: 600 !important;
+        }
+
+        #products {
+            color: rgba(255, 255, 255, 0.22) !important;
+        }
+
+        .login-button {
+            border: 1px solid #ffffff;
+            border-radius: 2px;
+        }
+
+        .navbar-toggler-icon {
+            width: 15px !important;
+            height: 15px !important;
+            padding: 0 !important;
+        }
+
+        .dropdown-menu {
+            background-color: #222222 !important;
+            margin-left: -55px;
+        }
+
+        .dropdown-menu .dropdown-item {
+            color: aliceblue;
+        }
+
+        .dropdown-divider {
+            color: aliceblue;
+        }
+
+        .dropdown-item:hover {
+            color: #333222 !important;
+        }
+
+        @media only screen and (min-width: 600px) {
+            #id-UserCollaps ul li a {
+                display: none !important;
+            }
+        }
+
+        @media only screen and (min-width: 768px) {
+            #id-UserCollaps ul li a {
+                display: block !important;
+            }
+        }
+
+        @media only screen and (min-width: 1020px) {
+            #id-UserCollaps ul li a {
+                display: none !important;
+            }
+        }
+
+        .footer {
+            position: fixed;
+            -webkit-box-align: baseline;
+            align-items: baseline;
+            bottom: 0px;
+            padding: 3px 15px;
+            background: rgb(231, 79, 48);
+            box-shadow: rgb(170 170 170) 0px -1px 4px;
+            transition: all 0.5s ease 0s;
+            z-index: 1;
+            width: calc(100% - 0px);
+        }
+
+        @media only screen and (max-width: 767px) {
+
+            form {
+                align-items: center;
+                align-content: center;
+                width: 100%;
+            }
+
+            .added-footer-div {
+                display: none;
+            }
+        }
+
+        @media only screen and (max-width: 600px) {
+            form {
+                align-items: center;
+                align-content: center;
+                width: 100%;
+            }
+
+            .added-footer-div {
+                display: none;
+            }
+        }
+
+        @media only screen and (max-width: 522px) {
+            form {
+                align-items: center;
+                align-content: center;
+                width: 100%;
+            }
+
+            .added-footer-div {
+                display: none;
+            }
+        }
+
+        @media only screen and (max-width: 425px) {
+            form {
+                align-items: center;
+                align-content: center;
+                width: 100%;
+            }
+
+            .added-footer-div {
+                display: none;
+            }
+        }
+
+        /*
+        @media only screen and (max-width: 374px) {
+            form {
+                align-items: center;
+                align-content: center;
+                width: 100%;
+            }
+
+            .navbar-mini div a {
+                padding: 10px 16px;
+                align-items: center;
+                text-align: right;
+            }
+
+            .navbar-mini div a i {
+                display: block;
+                text-align: center;
+                font-size: 16px;
+            }
+
+            .navbar-mini div a p {
+                font-size: 10px;
+                margin-bottom: 0;
+            }
+
+            .added-footer-div {
+                display: none;
+            }
+        }
+        */
+
+        @media only screen and (max-width: 374px) {
+
+            form {
+                align-items: center;
+                align-content: center;
+                width: 100%;
+            }
+
+            .added-footer-div {
+                display: none;
+            }
+        }
+
+        @media only screen and (min-width: 770px) {
+
+            .login-button-mini {
+                display: none;
+            }
+        }
+
+        .fa-home:before, .fa-cog:before, .fa-picture-o:before, .fa-product-hunt:before, .fa-archive:before {
+            font-size: 16px;
+            text-align: center;
+            color: white !important;
+        }
+
+        .modal-content {
+            background-color: #787878B3;
+        }
+
+        .booking-button {
+            color: white;
+            background-color: transparent;
+            border: 1px solid white;
+            border-radius: 3px;
+            padding: 4px 12px !important;
+            font: 10px Lato, sans-serif;
+            font-weight: 300 !important;
+        }
+
+        .booking-button:hover {
+            color: rgb(219, 89, 45);
+            border: 1px solid rgb(219, 89, 45);
+            transition-duration: .5s;
+        }
+
+        @media screen and (min-width: 992px) {
+            #Maloy-Baroi-nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        {% block extra_toggle_button %}
+
+        {% endblock %}
+        <a class="navbar-brand" href="{% url 'App_main:home' %}">
+            SMART GARAGE BD
+        </a>
+
+        {% if user.is_authenticated %}
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#id-UserCollaps" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation"
+                    style="font: 10px Lato sans-serif; width: 50px; height: 22px; padding: 4px 12px; color: aliceblue"
+            >
+                {{ user.username }}
+            </button>
+            <div class="collapse navbar-collapse" id="id-UserCollaps">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link m-2" href="{% url 'App_main:user-dashboard' %}" style="float: right;">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link m-2" href="#" style="float: right;">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link m-2" href="#" style="float: right;">TAC</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link m-2" href="{% url 'App_auth:logout' %}" style="float: right;">
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        {% else %}
+            <a class="nav-link login-button-mini" href="{% url 'App_auth:login' %}"
+               style="font: 10px Lato sans-serif; width: 50px; height: 22px; padding: 4px 12px; color: aliceblue; border: 1px solid #fff3cd">
+                Login
+            </a>
+        {% endif %}
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'App_main:home' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'App_main:services' %}">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'App_main:gallery' %}">Gallery</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" id="products">
+                        <s>Products</s>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'App_main:campaign' %}">Campaign</a>
+                </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'App_main:booking-view' %}">
+                            <button class="booking-button">
+                                Book Now
+                            </button>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="">
+                            <button class="booking-button" onclick="alert('Login Required!')">
+                                Book Now
+                            </button>
+                        </a>
+                    </li>
+                {% endif %}
+                {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ user }}
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'App_main:user-dashboard' %}">
+                                    Dashboard
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'App_main:profile-view' %}">
+                                    Profile
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    TAC
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'App_auth:logout' %}">
+                                    Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                {% else %}
+                    {% if loginForm %}
+                        <li class="nav-item">
+                            <a class="nav-link login-button" href="" data-bs-toggle="modal"
+                               data-bs-target="#loginModal">Login</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link login-button" href="{% url 'App_main:home' %}">Login</a>
+                        </li>
+                    {% endif %}
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Login with username and password</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{% url 'App_auth:login' %}" class="form-group"
+                                          method="post">
+                                        {% csrf_token %}
+                                        <fieldset class="form-group">
+                                            {{ loginForm|crispy }}
+                                            <input type="hidden" name="next" value="{{ request.path }}">
+                                        </fieldset>
+                                        <div class="form-group">
+                                            <button class="btn btn-success" type="submit">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<!-- Trying -->
+<div id="main">
+    {% block main %}
+
+    {% endblock %}
+    <div id="Maloy-Baroi-nav">
+        <div class="nav-slot bg-white round-top-left">
+            <a href="{% url 'App_main:home' %}" class="nav-link Maloy-Baroi-navlink" id="id-mini-nav-home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                     stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+            </a>
+        </div>
+
+        <div class="nav-slot bg-white">
+            <a href="#" class="nav-link Maloy-Baroi-navlink" id="id-mini-nav-gallery">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                     stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <path d="M20.4 14.5L16 10 4 20"/>
+                </svg>
+            </a>
+        </div>
+
+        <div class="nav-slot curve">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 103.99 50" style="height: 100%;">
+                <path fill="#db592d"
+                      d="M78.15,15.14a30,30,0,0,1-51.81,0A30,30,0,0,0,.57,0H0V50H103.93V0A30,30,0,0,0,78.15,15.14Z"/>
+            </svg>
+            <a href="{% url 'App_main:services' %}" role="button" class="floating-button" id="id-mini-nav-services">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="100%" viewBox="0 8 24 24" fill="none"
+                     stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+            </a>
+        </div>
+
+        <div class="nav-slot bg-white">
+            <a href="#" class="nav-link Maloy-Baroi-navlink" id="id-mini-nav-products">
+                <s>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                </s>
+            </a>
+        </div>
+
+        <div class="nav-slot bg-white round-top-right">
+            <a href="{% url 'App_main:campaign' %}" class="nav-link Maloy-Baroi-navlink" id="id-mini-nav-campaign">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                     stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="18" cy="5" r="3"></circle>
+                    <circle cx="6" cy="12" r="3"></circle>
+                    <circle cx="18" cy="19" r="3"></circle>
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                </svg>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- End Trying -->
+
+
+<div class="added-footer-div">
+    {% include 'footer.html' %}
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+<script>
+    let dashboard = document.getElementById('id-dashboard');
+    let bookings = document.getElementById('id-bookings');
+    let invoices = document.getElementById('id-invoices');
+    let warranty = document.getElementById('id-warranty');
+    let contactUs = document.getElementById('id-contact-us');
+
+    /*
+    dashboard.classList.remove('-active');
+    bookings.classList.remove('-active');
+    invoices.classList.remove('-active');
+    warranty.classList.remove('-active');
+    contactUs.classList.remove('-active');
+    */
+
+    {% block customer_active_box %}
+    {% endblock %}
+</script>
+</body>
+</html>

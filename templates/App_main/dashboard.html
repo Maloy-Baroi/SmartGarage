@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block main %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+        .sidebar {
+            height: 100%;
+            width: 85px;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: rgb(34, 34, 34);
+            transition: 0.5s;
+            overflow-x: hidden;
+            padding-top: 60px;
+            white-space: nowrap;
+            margin-top: 136px;
+        }
+
+        .sidebar a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 13px;
+            color: #ffffff;
+            display: block;
+        }
+
+        .-active {
+            background-color: rgb(228, 107, 51);
+        }
+
+        .sidebar a:hover {
+            color: #f1f1f1;
+        }
+
+        main .sidebar {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+        .material-icons,
+        .icon-text {
+            vertical-align: middle;
+        }
+
+        .material-icons {
+            padding-bottom: 3px;
+            margin-right: 30px;
+        }
+
+        #main {
+            padding: 16px;
+            margin-left: 85px;
+            transition: margin-left 0.5s;
+        }
+
+        @media screen and (max-height: 450px) {
+            .sidebar {
+                padding-top: 15px;
+            }
+
+            .sidebar a {
+                font-size: 13px;
+                color: #ffffff;
+            }
+
+            #main {
+                padding: 16px 0;
+                margin-left: 0;
+            }
+        }
+
+        @media screen and (max-width: 767px) {
+            .sidebar {
+                padding-top: 15px;
+                display: none;
+            }
+
+            .sidebar a {
+                font-size: 13px;
+                color: #ffffff;
+            }
+        }
+
+        @media screen and (min-width: 768px) {
+            .sidebar {
+                padding-top: 15px;
+                display: block;
+            }
+        }
+
+        .service-box {
+            text-align: center;
+            background: rgb(255, 255, 255);
+            padding: 10px;
+            margin-bottom: 30px;
+            max-width: 250px;
+            width: auto;
+            height: 85px;
+            cursor: pointer;
+            box-shadow: rgb(170 178 189) 0 3px 2px;
+            border: 1px solid rgb(204, 204, 204);
+            border-radius: 8px;
+        }
+
+        .service-box .plain-text {
+            font-family: "Lato", sans-serif !important;
+            font-size: 14px !important;
+            font-weight: 400 !important;
+        }
+
+        .service-box-icon img {
+            vertical-align: middle !important;
+            width: 24px;
+            height: 24px;
+        }
+    </style>
+
+    {% block extra_toggle_button %}
+        <button class="navbar-toggler" type="button" onclick="toggleSlider()">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    {% endblock %}
+    {% include 'App_main/customer_dashboard_base.html' %}
+    <div class="container">
+        <div id="main">
+            <div class="service-div">
+                <div class="container">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-md-4">
+                                <div class="service-box" style="">
+                                    <p class="service-box-icon">
+                                        <img src="{% static 'images/Services Images/booking.svg' %}" alt="logo">
+                                    </p>
+                                    <p class="plain-text">
+                                        Bookings
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="service-box" style="">
+                                    <p class="service-box-icon">
+                                        <img src="{% static 'images/Services Images/booking.svg' %}" alt="logo">
+                                    </p>
+                                    <p class="plain-text">
+                                        On going Repair
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var mini = true;
+        let counter = 0;
+        let sideBar = document.getElementById("mySidebar");
+        let main_bar = document.getElementById("main");
+
+        function toggleSidebar() {
+            if (mini) {
+                sideBar.style.width = "250px";
+                main_bar.style.marginLeft = "250px";
+                this.mini = false;
+                c
+            } else {
+                sideBar.style.width = "85px";
+                main_bar.style.marginLeft = "85px";
+                this.mini = true;
+            }
+        }
+
+        function toggleSlider() {
+            if (counter === 0) {
+                sideBar.style.display = 'block';
+                sideBar.style.width = "250px";
+                counter = 1;
+            } else {
+                sideBar.style.display = 'none';
+                counter = 0;
+            }
+        }
+    </script>
+{% endblock %}
+{% block customer_active_box %}
+    dashboard.classList.add('-active');
+    bookings.classList.remove('-active');
+    invoices.classList.remove('-active');
+    warranty.classList.remove('-active');
+    contactUs.classList.remove('-active');
+{% endblock %}

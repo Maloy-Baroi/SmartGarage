@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block main %}
+    <link rel="stylesheet" href="{% static 'css/basicx.css' %}">
+
+    <style>
+        .maloy-card p.text-left {
+            font: 14px Lato, sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .maloy-card:hover {
+            box-shadow: 0 5px 5px #888888;
+            transition: .5s;
+            border-radius: 5px;
+        }
+
+        .image-container {
+            margin: 40px 0;
+            width: auto;
+            height: 150px;
+        }
+    </style>
+
+    <div class="container all-services">
+        <h1 class="smart-services-header">
+            Parts and Accessories
+        </h1>
+        <div class="row">
+            {% for part in parts_n_accessories %}
+                <div class="col-md-3 col-sm-12 card-container maloy-card">
+                    <div style="text-align: center;" class="image-container">
+                        <img src="{{ part.product_image.url }}" alt="Product Image">
+                    </div>
+                    <div class="container">
+                        <p class="text-left"
+                           onclick="window.location.href='{% url "App_main:parts-n-accessories-single" id=part.id %}'">
+                            {{ part.name }}
+                        </p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        let dumpedData = JSON.stringify({{ dictionJson }});
+        console.log(dumpedData);
+    </script>
+{% endblock %}

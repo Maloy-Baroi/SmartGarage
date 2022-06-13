@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% block main %}
+    <style>
+        label {
+            font-weight: 400;
+            font-size: 15px;
+            padding-left: 10px;
+            color: rgb(82, 82, 82);
+        }
+
+        input, #id_service_type {
+            color: rgba(0, 0, 0, 0.65);
+            background-color: rgb(255, 255, 255);
+            height: auto;
+            padding: 6px 11px;
+            font-size: 16px;
+            width: 100%;
+            border-radius: 6px;
+            border: 1px solid green;
+            cursor: pointer;
+        }
+    </style>
+    {% block extra_toggle_button %}
+        <button class="navbar-toggler" type="button" onclick="toggleSlider()">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    {% endblock %}
+    {% include 'App_main/customer_dashboard_base.html' %}
+    <div class="container">
+        <div id="main">
+            <div class="service-div">
+                <div class="container">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <form action="{% url 'App_main:booking-view' %}" method="post">
+                                {% csrf_token %}
+                                <fieldset class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label for="#id_location">Location</label>
+                                            {{ bookingForm.location }}
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="#id_location">Bike Type</label>
+                                            {{ bookingForm.bike_type }}
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="#id_location">Booking Date</label>
+                                            {{ bookingForm.booking_date }}
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="#id_contact_number">Contact Number</label>
+                                            {{ bookingForm.contact_number }}
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-md-3">
+                                            <legend>Main Services</legend>
+                                            {% for service in services %}
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="main-service"
+                                                           id="flexRadioDefault1-{{ service.id }}"
+                                                           value="{{ service }}">
+                                                    <label class="form-check-label"
+                                                           for="flexRadioDefault1-{{ service.id }}">
+                                                        {{ service }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-3">
+                                            <legend>Additional Services</legend>
+                                            {% for service in services %}
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox"
+                                                           value="{{ service }}"
+                                                           id="flexCheckDefault-{{ service.id }}"
+                                                           name="additional-services">
+                                                    <label class="form-check-label"
+                                                           for="flexCheckDefault-{{ service.id }}">
+                                                        {{ service }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-3">
+                                            <legend>Service Type</legend>
+                                            {{ bookingForm.service_type }}
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <div class="form-group mt-3 text-end">
+                                    <button class="btn btn-success" type="submit">Submit Booking</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var mini = true;
+        let counter = 0;
+        let sideBar = document.getElementById("mySidebar");
+        let main_bar = document.getElementById("main");
+
+        function toggleSidebar() {
+            if (mini) {
+                sideBar.style.width = "250px";
+                main_bar.style.marginLeft = "250px";
+                this.mini = false;
+            } else {
+                sideBar.style.width = "85px";
+                main_bar.style.marginLeft = "85px";
+                this.mini = true;
+            }
+        }
+
+        function toggleSlider() {
+            if (counter === 0) {
+                sideBar.style.display = 'block';
+                sideBar.style.width = "250px";
+                counter = 1;
+            } else {
+                sideBar.style.display = 'none';
+                counter = 0;
+            }
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,206 @@
+{% extends 'App_admin/basement.html' %}
+{% load crispy_forms_filters %}
+{% block admin_base_main %}
+    <style>
+        .container_content {
+            margin: 10px 50px;
+        }
+
+        @media screen and (max-width: 720px) {
+            .container_content {
+                margin: 10px 20px;
+            }
+        }
+
+        .form-div {
+            padding: 10px;
+            background: var(--body-bg);
+            border-top: none;
+            border-bottom: none;
+            line-height: 24px;
+            color: var(--body-quiet-color);
+            width: 100%;
+        }
+
+        .form-div form select {
+            vertical-align: top;
+            height: 24px;
+            color: var(--body-fg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 14px;
+            padding: 0 0 0 4px;
+            margin: 0 0 0 10px;
+        }
+
+        /* Table Css */
+        table {
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        table tr {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            padding: .35em;
+        }
+
+        table th {
+            text-align: center !important;
+        }
+
+        table th,
+        table td {
+            padding: .625em;
+            text-align: center;
+        }
+
+        table th {
+            font-size: .85em;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            text-align: left;
+        }
+
+        @media screen and (max-width: 600px) {
+            table {
+                border: 0;
+            }
+
+            table caption {
+                font-size: 1.3em;
+            }
+
+            table thead {
+                border: none;
+                clip: rect(0 0 0 0);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0;
+                position: absolute;
+                width: 1px;
+            }
+
+            table tr {
+                border-bottom: 3px solid #ddd;
+                display: block;
+                margin-bottom: .625em;
+            }
+
+            table td {
+                border-bottom: 1px solid #ddd;
+                display: block;
+                font-size: .8em;
+                text-align: right;
+            }
+
+            table td::before {
+                /*
+                * aria-label has no advantage, it won't be read inside a table
+                content: attr(aria-label);
+                */
+                content: attr(data-label);
+                float: left;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+
+            table td:last-child {
+                border-bottom: 0;
+            }
+        }
+    </style>
+    <div class="main__inner container_content">
+        <div class="content">
+            <p>
+                <span style="font-size: 20px">
+                    Add new Campaign
+                </span>
+                <span>
+                    <button class="btn-shadow btn btn-info" style="float: right" onclick="createUserFormOpener()">
+                        Add new campaign
+                    </button>
+                </span>
+            </p>
+        </div>
+        <div class="form-div">
+        </div>
+        <table id="id-user-table">
+            <thead>
+            <tr>
+                <th scope="col" style="color: #666666;">Title</th>
+                <th scope="col" style="color: #666666;">Details</th>
+                <th scope="col" style="color: #666666;">Image</th>
+                <th scope="col" style="color: #666666;">Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for camp in campaigns %}
+                <tr>
+                    <td data-label="Title">
+                        {{ camp.cam_title }}
+                    </td>
+                    <td data-label="Details">
+                        {{ camp.details }}
+                    </td>
+                    <td data-label="Image">
+                        <img src="{{ camp.image.url }}" style="height: 155px; width: 100%;" alt="Campaign Image">
+                    </td>
+                    <td data-label="Status">
+                        {{ camp.status }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="container">
+        <div class="add-user-form" style="display: none;" id="id-createuser-form">
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6" style="border: 1px solid #000000; border-radius: 7px;">
+                    <form action="{% url 'App_admin:create-user' %}" method="post" class="form-group">
+                        {% csrf_token %}
+                        <legend style="text-align: center; font-size: 20px;">Add Campaign</legend>
+                        <fieldset class="form-group">
+                            {{ campForm|crispy }}
+                        </fieldset>
+                        <div class="form-group">
+                            <button class="btn btn-success" type="submit">
+                                Add
+                            </button>
+                            <button class="btn btn-outline-alternate" type="button" onclick="createUserFormOpener()">
+                                <i class="fa fa-times"> Close Form </i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let closer = 0;
+        let createUserForm = document.getElementById('id-createuser-form');
+
+        function createUserFormOpener() {
+            if (closer === 0) {
+                createUserForm.style.display = 'block';
+                closer = 1;
+            } else {
+                createUserForm.style.display = 'none';
+                closer = 0;
+            }
+        }
+    </script>
+{% endblock %}
+
+{% block active_script %}
+    Campaign.classList.add('mm-active')
+{% endblock %}

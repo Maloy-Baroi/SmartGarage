@@ -1,0 +1,440 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+            crossorigin="anonymous"></script>
+    <title>The Developer of {{ request.META.HTTP_HOST }}</title>
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Federo|Redressed);
+
+        body {
+            font-family: 'Federo', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /*
+               home
+        */
+        .btn {
+            border: 2.5px solid transparent;
+            border-radius: 0px;
+            padding: 7px 15px;
+            margin: 3px;
+        }
+
+        .btn-default {
+            background-color: transparent;
+            color: white;
+            border-color: white;
+        }
+
+        #front {
+            background: rgba(0, 0, 0, 0.5);
+            min-height: 100vh;
+            padding-top: 15vh;
+        }
+
+        #front h1 {
+            font-size: 29.7px;
+            display: inline-block;
+            -webkit-transform: scale(1.9, 1.7); /* Safari and Chrome */
+            -moz-transform: scale(1.9, 1.7); /* Firefox */
+            -ms-transform: scale(1.9, 1.7); /* IE 9 */
+            -o-transform: scale(1.9, 1.7); /* Opera */
+            transform: scale(1.9, 1.7); /* W3C */
+            line-height: 1.7;
+        }
+
+        #front p {
+            font-size: 21.19px;
+            margin-bottom: 21px;
+        }
+
+        #front span {
+            font-size: 60.1px;
+        }
+
+        #home {
+            background: url(https://res.cloudinary.com/omiq17/image/upload/q_auto/v1501085935/portfolio/desk_viadd9.jpg) center center;
+            background-attachment: fixed, scroll;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            min-height: 100vh;
+            width: 100%;
+            text-align: center;
+            color: white;
+        }
+
+        .redressed {
+            font-family: 'Redressed', cursive;
+        }
+
+        /*
+               About
+        */
+        #about {
+            text-align: center;
+            min-height: 100vh;
+            width: 100%;
+            background: #FAFAFA;
+        }
+
+        .about {
+            padding: 0% 15%;
+        }
+
+        .about p, .about h2 {
+            font-family: 'Lato', sans-serif;
+        }
+
+        .about h1 {
+            margin: 5%;
+        }
+
+        .about p {
+            font-size: 19.9px;
+        }
+
+        .about img {
+            border-radius: 55px 5px 55px 25px;
+            display: inline-block;
+            height: 33vh;
+        }
+
+        /*
+               Portfolio
+        */
+        #portfolio {
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            background: #DFF0D8;
+        }
+
+        .portfolio figure {
+            overflow: hidden;
+            padding: 5% 13%;
+            box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.5);
+            transition: box-shadow .3s ease-in-out;
+
+        }
+
+        .portfolio figure a img {
+            height: 315px;
+            width: 535px;
+            -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+            -webkit-transition: .3s ease-in-out;
+            transition: .3s ease-in-out;
+        }
+
+        .portfolio figure a:hover img {
+            -webkit-transform: scale(1.4);
+            transform: scale(1.4);
+        }
+
+        .portfolio figure:hover {
+            box-shadow: 10px 10px 5px #000;
+
+        }
+
+        #portfolio p {
+            font-size: 17px;
+        }
+
+        /*
+               Contact
+        */
+        #contact {
+            text-align: center;
+            min-height: 100vh;
+            padding: 21vh 0%;
+            width: 100%;
+            background: #FAFAFA;
+        }
+
+        #contact .btn-default {
+            background-color: #eee;
+            color: #333;
+            border-color: #333;
+        }
+
+        #contact p, #contact ul li {
+            font-size: 15px;
+        }
+
+        @media (min-width: 768px) {
+            .about {
+                padding: 0% 25%;
+            }
+
+            #front {
+                padding: 21vh 21vh 0vh 10vh;
+            }
+
+            #nav {
+                padding: 0px 55px;
+            }
+
+            .navbar-default {
+                padding: 5px;
+            }
+
+            .navbar-nav {
+                float: right;
+            }
+        }
+
+        /*
+        ******hover style
+        */
+        .hvr-bounce-to-right {
+            display: inline-block;
+            vertical-align: middle;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+            box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            -moz-osx-font-smoothing: grayscale;
+            position: relative;
+            -webkit-transition-property: color;
+            transition-property: color;
+            -webkit-transition-duration: 0.5s;
+            transition-duration: 0.5s;
+        }
+
+        .hvr-bounce-to-right:before {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #fff;
+            -webkit-transform: scaleX(0);
+            transform: scaleX(0);
+            -webkit-transform-origin: 0 50%;
+            transform-origin: 0 50%;
+            -webkit-transition-property: transform;
+            transition-property: transform;
+            -webkit-transition-duration: 0.5s;
+            transition-duration: 0.5s;
+            -webkit-transition-timing-function: ease-out;
+            transition-timing-function: ease-out;
+        }
+
+        .hvr-bounce-to-right:hover, .hvr-bounce-to-right:focus, .hvr-bounce-to-right:active {
+            color: #333;
+            border-color: white;
+            background-color: transparent;
+        }
+
+        .hvr-bounce-to-right:hover:before, .hvr-bounce-to-right:focus:before, .hvr-bounce-to-right:active:before {
+            -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+            -webkit-transition-timing-function: cubic-bezier(0.52, 1.64, 0.37, 0.66);
+            transition-timing-function: cubic-bezier(0.52, 1.64, 0.37, 0.66);
+        }
+    </style>
+</head>
+<body>
+<header>
+    <!-- Static navbar -->
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">MALOY BAROI</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#portfolio">Portfolio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Social Media
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="https://www.facebook.com/Maloy.humanbeing/">Facebook</a>
+                            </li>
+                            <li><a class="dropdown-item" href="https://wa.me/whatsappphonenumber?text=urlencodedtext">WhatsApp</a>
+                            </li>
+                            <li><a class="dropdown-item" href="https://www.instagram.com/maloy.virat/">Instagram</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div id="home" class="container">
+    <div id="front" class="row">
+        <div class="col-sm-12">
+            <h1 class="redressed"><span>I'</span>m <span>M</span>aloy</h1>
+            <p class="redressed">Web developer | Programmer | Designer | Photographer</p>
+            <a class="btn btn-default hvr-bounce-to-right" href="https://www.linkedin.com/in/maloy-baroi-745915163/"
+               role="button" target="_blank"><i class="fa fa-linkedin"></i> LinkedIn</a>
+            <a class="btn btn-default hvr-bounce-to-right" href="https://github.com/Maloy-Baroi" target="_blank"
+               role="button">
+                <i class="fa fa-github"></i> Github</a>
+            <a class="btn btn-default hvr-bounce-to-right" href="https://www.fiverr.com/maloy_baroi?up_rollout=true"
+               target="_blank" role="button">
+                <i class="fa fa-facebook-f"></i> Fiverr</a>
+            <a class="btn btn-default hvr-bounce-to-right" href="https://www.visitorealm.com/" target="_blank"
+               role="button">
+                <i class="fa fa-viacoin"></i> Visitorealm</a>
+        </div>
+    </div>
+
+</div>
+
+<div id="about" class="container">
+    <div class="row">
+        <div class="col-sm-12 about">
+            <h1>About Me</h1>
+            <img src="https://www.visitorealm.com/static/assets/images/us/MaloyBaroi.jpg"
+                 class="img-responsive" alt="Maloy Baroi">
+            <h2>Hi,</h2>
+            <p>I am a self-taught web developer &amp; designer. I work on Python Django and React. Currently, studying
+                at CSE in Daffodil Institute of IT.
+                I have a passion for developing websites &amp; web applications. I'm also interested in Machine
+                learning.</p>
+            <p><b>Competences</b></p>
+            <p>Programming Languages: Python, JavaScript, C</p>
+            <p>Frameworks: Django, ReactJS</p>
+            <p>Databases: MySQL, MongoDB</p>
+            <p>UI Stack: HTML5, CSS3, Bootstrap5</p>
+            <p>Version Control System: Git</p>
+            <p></p>
+        </div>
+    </div>
+
+</div>
+
+<div id="portfolio" class="container">
+    <h2>Portfolio</h2>
+    <p>Here are some of my works...</p>
+    <div class="row">
+        <div class="col-md-6 portfolio">
+            <figure>
+                <a href="https://www.visitorealm.com" target="_blank">
+                    <img alt="visitorealm"
+                         src="{% static 'images/Developers/1.png' %}"
+                         class="img-responsive"></a>
+            </figure>
+            <h2>Visitorealm</h2>
+            <p>A Travel Freelancing Website</p>
+        </div>
+        <div class="col-md-6 portfolio">
+            <figure>
+                <a href="https://hexasfashion.xyz/" target="_blank">
+                    <img alt="Hexas Fashion"
+                         src="{% static 'images/Developers/2.png' %}"
+                         class="img-responsive"></a>
+            </figure>
+            <h2>Hexas Fashion</h2>
+            <p>A Ecommerce Website</p>
+        </div>
+    </div>
+
+{#    <div class="row">#}
+{#        <div class="col-md-6 portfolio">#}
+{#            <figure>#}
+{#                <a href="https://s.codepen.io/omiq17/full/GZpGRN" target="_blank"><img alt="quote"#}
+{#                                                                                       src="https://res.cloudinary.com/omiq17/image/upload/q_auto/v1501085935/portfolio/Selection_004.jpg"#}
+{#                                                                                       class="img-responsive"></a>#}
+{#            </figure>#}
+{#            <h2>Random Quote Machine</h2>#}
+{#            <p>A quotation generator</p>#}
+{#        </div>#}
+{#        <div class="col-md-6 portfolio">#}
+{#            <figure>#}
+{#                <a href="https://s.codepen.io/omiq17/full/JGVyQz" target="_blank"><img alt="masud"#}
+{#                                                                                       src="https://res.cloudinary.com/omiq17/image/upload/q_auto/v1501085935/portfolio/Selection_006.jpg"#}
+{#                                                                                       class="img-responsive"></a>#}
+{#            </figure>#}
+{#            <h2>Tribute To Tareque Masud</h2>#}
+{#            <p>A tribute page for Tareque Masud</p>#}
+{#        </div>#}
+{#    </div>#}
+
+</div>
+
+<div id="contact" class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>Looking For My Help?</h2>
+            <h4>Here I am...</h4>
+            <h2>Maloy Baroi</h2>
+            <p>Dhaka<br>Bangladesh</p>
+            <ul class="list-unstyled">
+                <li><i class="fa fa-phone fa-fw"></i>+880 18 55 27 92 09</li>
+                <li><i class="fa fa-envelope-o fa-fw"></i>maloy.virat@gmail.com</li>
+            </ul>
+            <hr class="small">
+            <a class="btn btn-default" href="https://www.facebook.com/Maloy.humanbeing/"
+               role="button" target="_blank"><i class="fa fa-facebook"></i> </a>
+            <a class="btn btn-default" href="https://github.com/Maloy-Baroi" target="_blank" role="button">
+                <i class="fa fa-github"></i> </a>
+            <a class="btn btn-default" href="https://www.linkedin.com/in/maloy-baroi-745915163/" target="_blank"
+               role="button">
+                <i class="fa fa-linkedin"></i> </a>
+        </div>
+    </div>
+
+</div>
+<script>
+    $(document).ready(function () {
+        $("html").niceScroll({
+            scrollspeed: 51,
+            mousescrollstep: 45,
+        });
+
+        $(function () {
+            $('a.page-scroll').bind('click', function (event) {
+                var $anchor = $(this);
+                $('html, body').stop().animate({
+                    scrollTop: $($anchor.attr('href')).offset().top
+                }, 1000);
+                event.preventDefault();
+            });
+        });
+
+        var headerHeight = $(".s").outerHeight(true);
+        $(" #about, #home, #portfolio").css("padding-top", headerHeight)
+        $(" #about, #portfolio").css("padding-bottom", headerHeight)
+    });
+
+</script>
+</body>
+</html>

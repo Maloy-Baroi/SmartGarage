@@ -1,0 +1,543 @@
+{% extends 'App_admin/basement.html' %}
+{% load static %}
+{% load crispy_forms_filters %}
+{% block admin_base_main %}
+    <style>
+        .container_content {
+            margin: 10px 50px;
+        }
+
+        @media screen and (max-width: 720px) {
+            .container_content {
+                margin: 10px 20px;
+            }
+        }
+
+        .form-div {
+            padding: 10px;
+            background: var(--body-bg);
+            border-top: none;
+            border-bottom: none;
+            line-height: 24px;
+            color: var(--body-quiet-color);
+            width: 100%;
+        }
+
+        .form-div form select {
+            vertical-align: top;
+            height: 24px;
+            color: var(--body-fg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 14px;
+            padding: 0 0 0 4px;
+            margin: 0 0 0 10px;
+        }
+
+        /* Table Css */
+        table {
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        table tr {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            padding: .35em;
+        }
+
+        table th,
+        table td {
+            padding: .625em;
+            text-align: left;
+        }
+
+        table th {
+            font-size: .85em;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            text-align: left;
+        }
+
+        @media screen and (max-width: 600px) {
+            table {
+                border: 0;
+            }
+
+            table caption {
+                font-size: 1.3em;
+            }
+
+            table thead {
+                border: none;
+                clip: rect(0 0 0 0);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0;
+                position: absolute;
+                width: 1px;
+            }
+
+            table tr {
+                border-bottom: 3px solid #ddd;
+                display: block;
+                margin-bottom: .625em;
+            }
+
+            table td {
+                border-bottom: 1px solid #ddd;
+                display: block;
+                font-size: .8em;
+                text-align: right;
+            }
+
+            table td::before {
+                /*
+                * aria-label has no advantage, it won't be read inside a table
+                content: attr(aria-label);
+                */
+                content: attr(data-label);
+                float: left;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+
+            table td:last-child {
+                border-bottom: 0;
+            }
+        }
+
+
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 0 10px #000000;
+            -webkit-box-shadow: 0 0 10px #000000;
+            padding: 10px;
+        }
+
+        .close-btn {
+            border: 1px solid darkred;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .close-btn:hover {
+            background-color: #891f1f;
+            color: #ffffff;
+            -webkit-box-shadow: 0 0 5px #50616c;
+            box-shadow: 0 0 5px #50616c;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        #edit-btn {
+            border: 1px solid #c7a50b;
+            border-radius: 5px;
+            color: #000000;
+            padding: 5px;
+            margin-right: 10px;
+            height: 32px;
+            width: 86px;
+            text-align: center;
+        }
+
+        #edit-btn:hover {
+            background-color: #c7a50b;
+            border-radius: 5px;
+            color: #ffffff;
+            padding: 5px;
+            margin-right: 10px;
+            height: 32px;
+            width: 86px;
+            text-align: center;
+        }
+
+        #read-more-btn {
+            border-radius: 5px;
+            border: 1px solid darkred;
+            color: #f63138;
+            padding: 5px;
+            height: 32px;
+            width: 86px;
+            text-align: center;
+        }
+
+        #read-more-btn:hover {
+            border-radius: 5px;
+            background-color: darkred;
+            color: #ffffff;
+            padding: 5px;
+            height: 32px;
+            width: 86px;
+            text-align: center;
+        }
+
+        #delete-btn {
+            border-radius: 5px;
+            border: 1px solid #ff004c;
+            color: #000000;
+            padding: 5px;
+            height: 32px;
+            width: 86px;
+            text-align: center;
+        }
+
+        #delete-btn:hover {
+            background-color: #ff004c;
+            border-radius: 5px;
+            color: #ffffff;
+            padding: 5px;
+            height: 32px;
+            width: 86px;
+            text-align: center;
+        }
+
+        .single-blog-container {
+            height: 570px !important;
+            margin: 50px 0;
+            box-shadow: 0 0 20px #50616c;
+            -webkit-box-shadow: 0 0 20px #50616c;
+        }
+
+        .single-explore-item {
+            height: 600px !important;
+        }
+
+        .single-explore-txt {
+            height: 300px !important;
+        }
+
+        .blog-buttons {
+            margin-bottom: 200px !important;
+        }
+
+        .fa-bookmark-o, .fa-arrows-alt {
+            color: white !important;
+        }
+
+        .add-me-wishlist {
+            text-align: left;
+            width: fit-content;
+            padding: 10px;
+            background-color: transparent;
+            border-radius: 5px;
+            border: 1px solid #1ccaff;
+            color: #000000;
+        }
+
+        .add-me-wishlist:hover {
+            width: fit-content;
+            padding: 10px;
+            background-color: #1ccaff;
+            border-radius: 5px;
+            border: 1px solid #1ccaff;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .add-me-wishlist i:hover {
+            color: #8b0000;
+        }
+
+        @media only screen and (min-width: 300px) {
+            .add-me-wishlist {
+                margin-top: 5px;
+            }
+        }
+
+        @media only screen and (min-width: 200px) {
+            .add-me-wishlist {
+                margin-top: 5px;
+                content: "Add To Wishlist";
+            }
+        }
+
+        #container #containerHeader {
+            text-align: center;
+            cursor: move;
+        }
+
+        #container #editor1 {
+            border: 1px solid #ccc;
+            height: 300px;
+            overflow: scroll;
+            width: 100%;
+            margin: 0 auto 20px;
+            padding: 10px;
+        }
+
+        @media only screen and (max-width: 720px) {
+            #container #editor1 {
+                height: 200px !important;
+            }
+        }
+
+        #container fieldset {
+            margin: 2px auto 0 !important;
+            padding: 5px;
+            width: 100%;
+            height: 10%;
+            background-color: #f8f8f8;
+            color: #3b3b3b;
+            border: 1px solid #ccc;
+        }
+
+        #container fieldset select {
+            color: #3b3b3b;
+        }
+
+        #container .fa {
+            background-color: #ffffff;
+            color: #000000;
+            margin: 1px;
+            border: 1px solid #8d8d8d;
+        }
+
+        #container button {
+            text-align: center;
+            padding: 1px 3px;
+            height: 30px;
+            width: 40px;
+            background-repeat: no-repeat;
+            background-size: cover;
+            border: none;
+        }
+
+        #container img {
+            width: 100%;
+        }
+    </style>
+    <script>
+        function chooseColor() {
+            let mycolor = document.getElementById("myColor").value;
+            document.execCommand('foreColor', false, mycolor);
+        }
+
+        function backColor() {
+            let nColor = document.getElementById("nColor").value;
+            document.execCommand('backColor', false, nColor);
+        }
+
+        function changeFont() {
+            let myFont = document.getElementById("input-font").value;
+            document.execCommand('fontName', false, myFont);
+        }
+
+        function changeSize() {
+            let mysize = document.getElementById("fontSize").value;
+            document.execCommand('fontSize', false, mysize);
+        }
+
+        function checkDiv() {
+            let editorText = document.getElementById("editor1").innerHTML;
+            if (editorText === '') {
+                document.getElementById("editor1").style.border = '5px solid red';
+            }
+        }
+
+        function removeBorder() {
+            document.getElementById("editor1").style.border = '1px solid transparent';
+        }
+
+        function getContent() {
+            document.getElementById("my-textarea").value = document.getElementById("editor1").innerHTML;
+        }
+
+        function save() {
+            getContent();
+            document.getElementById("save").submit();
+        }
+    </script>
+
+    <div class="main__inner container_content">
+        <div class="content">
+            <p>
+                <span style="font-size: 20px">
+                    See Services
+                </span>
+            </p>
+        </div>
+    </div>
+    <div class="container">
+        <div class="add-user-form" id="id-createuser-form">
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6" style="border: 1px solid #000000; border-radius: 7px;">
+                    <form method="post" class="form-group" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <legend class="text-center">
+                            {{ service.name }} Update
+                        </legend>
+                        <button class="btn float-right" type="button"
+                                style="margin-top: -30px; margin-right: -20px"
+                                onclick="window.location.href='{% url "App_admin:admin-service-view" %}'">
+                            <i class="fa fa-times" style="font-size: 20px"></i>
+                        </button>
+                        <fieldset class="form-group mt-3 p-3">
+                            {{ form|crispy }}
+                        </fieldset>
+                        <div id="container">
+                            <label for="my-textarea">
+                                Details of Services <sup>*</sup>
+                            </label> <br>
+                            <small class="disabled">This is an editor created by Maloy Baroi</small>
+                            <fieldset>
+                                <button type="button" class="fa fontStyle cut" onclick="document.execCommand('cut',false,null);"
+                                        title="cut(Ctrl+x)">&#xf0c4;
+                                </button>
+                                <button type="button" class="fa fontStyle copy" onclick="document.execCommand('copy',false,null);"
+                                        title="copy(ctrl+c)">
+                                    &#xf0c5;
+                                </button>
+                                <button type="button" class="fa fontStyle italic"
+                                        onclick="document.execCommand('italic',false,null);"
+                                        title="Italicize Highlighted Text">&#xf033;
+                                </button>
+                                <button type="button" class="fa fontStyle bold"
+                                        onclick="document.execCommand( 'bold',false,null);"
+                                        title="Bold Highlighted Text">&#xf032;
+                                </button>
+                                <button type="button" class="fa fontStyle underline"
+                                        onclick="document.execCommand( 'underline',false,null);"> &#xf0cd;
+                                </button>
+                                <select id="input-font" class="input" onchange="changeFont (this);">
+                                    <option value="Arial">Arial</option>
+                                    <option value="Helvetica">Helvetica</option>
+                                    <option value="Times New Roman">Times New Roman</option>
+                                    <option value="Sans serif">Sans serif</option>
+                                    <option value="Courier New">Courier New</option>
+                                    <option value="Verdana">Verdana</option>
+                                    <option value="Georgia">Georgia</option>
+                                    <option value="Palatino">Palatino</option>
+                                    <option value="Garamond">Garamond</option>
+                                    <option value="Comic Sans MS">Comic Sans MS</option>
+                                    <option value="Arial Black">Arial Black</option>
+                                    <option value="Tahoma">Tahoma</option>
+                                    <option value="Comic Sans MS">Comic Sans MS</option>
+                                </select>
+                                <button type="button" class="fa fontStyle subscript"
+                                        onclick="document.execCommand( 'subscript',false,null);">
+                                    <span> &#xf12c;</span>
+                                </button>
+                                <button type="button" class="fa fontStyle superscript"
+                                        onclick="document.execCommand( 'superscript',false,null);">
+                                    <span> &#xf12b;</span>
+                                </button>
+                                <button type="button" class="fa fontStyle strikethrough"
+                                        onclick="document.execCommand( 'strikethrough',false,null);">
+                                    <span> &#xf0cc;</span>
+                                </button>
+                                <button type="button" class="fa fontStyle align-left"
+                                        onclick="document.execCommand( 'justifyLeft',false,null);">
+                                    <span>&#xf036;</span>
+                                </button>
+                                <button type="button" class="fa fontStyle align-center"
+                                        onclick="document.execCommand( 'justifyCenter',false,null);">
+                                    <span> &#xf037;</span>
+                                </button>
+                                <button type="button" class="fa fontStyle align-right"
+                                        onclick="document.execCommand( 'justifyRight',false,null);">
+                                    <span> &#xf038;</span>
+                                </button>
+                                <button type="button" class="fa fontStyle redo-apply"
+                                        onclick="document.execCommand( 'redo',false,null);">
+                                    <span>&#xf01e;</span>
+                                </button>
+                                <button type="button" class="fa fontStyle undo-apply"
+                                        onclick="document.execCommand( 'undo',false,null);">
+                                    <span>&#xf0e2;</span>
+                                </button>
+                                <button type="button" class="fa fontStyle createlink"
+                                        onclick="document.execCommand( 'createLink',false,null);">
+                                    &#xf0c1;
+                                </button>
+                                <button type="button" class="fa fontStyle unlink"
+                                        onclick="document.execCommand( 'unlink',false,null);">
+                                    &#xf127;
+                                </button>
+                                <button type="button" class="fa fontStyle orderedlist"
+                                        onclick="document.execCommand('insertOrderedList', false, null);">
+                                    <span>&#xf0cb;</span>
+                                </button>
+                                <button type="button" class="fa fontStyle unorderedlist"
+                                        onclick="document.execCommand('insertUnorderedList',false, null)">
+                                    <span>&#xf0ca;</span>
+                                </button>
+                                <button type="button" class="fa fontStyle save" onclick="save()" style="display: none;">
+                                    <i class="fa fa-save"></i>
+                                </button>
+                                <!-- font size start -->
+                                &nbsp;
+                                font size :
+                                <select id="fontSize" onclick="changeSize()">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                </select>
+                                <!-- font size end -->
+                                <br>
+                                <img src="{% static 'images/icons/background-color-picker.png' %}"
+                                     alt="Background Color"
+                                     style="height: 20px; width: 20px;">
+                                <input class="color-apply" type="color" onchange="backColor()" id="nColor"
+                                       title="highlight">
+                                &nbsp;
+                                <img src="{% static 'images/icons/color-text.png' %}" alt="Background Color"
+                                     style="height: 20px; width: 20px;">
+                                <input class="color-apply" type="color" onchange="chooseColor()" id="myColor"
+                                       title="font color">
+
+                            </fieldset>
+                            <div id="editor1" contenteditable="true">{{ service.details|safe }}
+                            </div>
+                            <textarea id="my-textarea" name="my-service-content" style="display:none"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-warning" onclick="getContent()" type="submit">
+                                update
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let closer = 0;
+        let createUserForm = document.getElementById('id-createuser-form');
+
+        function createUserFormOpener() {
+            if (closer === 0) {
+                createUserForm.style.display = 'block';
+                closer = 1;
+            } else {
+                createUserForm.style.display = 'none';
+                closer = 0;
+            }
+        }
+    </script>
+{% endblock %}
+
+{% block active_script %}
+    dashboard.classList.remove('mm-active')
+    Users.classList.remove('mm-active')
+    UserProfiles.classList.remove('mm-active')
+    ContactUs.classList.remove('mm-active')
+    Booking.classList.remove('mm-active')
+    Campaign.classList.remove('mm-active')
+    Comments.classList.remove('mm-active')
+    Services.classList.add('mm-active')
+    groups.classList.remove('mm-active')
+{% endblock %}

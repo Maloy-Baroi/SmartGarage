@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_filters %}
+{% block main %}
+    <style>
+        .campaign-div {
+            margin: 15px auto 100px;
+        }
+
+        legend {
+            text-align: center;
+            color: rgb(232, 81, 34);
+            font-size: 25px;
+            font-family: "Times New Roman", Times, serif;
+            font-weight: bolder;
+        }
+
+        label {
+            color: rgb(232, 81, 34);
+            font: 16px "Lato", sans-serif;
+            font-weight: 300;
+            margin: 26px 0 0;
+        }
+
+        input {
+            margin-top: 2%;
+            border-width: 0 0 1px;
+            border-top-style: initial;
+            border-right-style: initial;
+            border-left-style: initial;
+            border-top-color: initial;
+            border-right-color: initial;
+            border-left-color: initial;
+            border-image: initial;
+            outline: 0;
+            background: transparent;
+            border-bottom-style: solid;
+            border-bottom-color: grey;
+            width: 100%;
+        }
+
+        .brands {
+            margin-top: 1%;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            display: grid;
+            grid-template-columns: auto auto auto auto auto auto;
+            grid-template-rows: auto;
+            gap: 2px;
+            border-radius: 8px;
+        }
+
+        .brands div {
+            display: -webkit-inline-flex;
+        }
+
+        .brands div label {
+            margin-top: 0 !important;
+            color: #2b2b2b !important;
+            font-family: "Times New Roman", sans-serif;
+        }
+
+        .brands div input[type="checkbox"] {
+            background-color: initial;
+            cursor: default;
+            appearance: auto;
+            box-sizing: border-box;
+            margin: 3px 3px 3px 4px;
+            padding: initial;
+            border: initial;
+            width: 15px;
+            height: auto
+        }
+
+        @media screen and (max-width: 767px) {
+            legend {
+                margin-top: 25px;
+            }
+        }
+
+        .btn-submit-form {
+            margin-top: 10px;
+            width: 100%;
+            background-color: rgb(232, 81, 34);
+            color: white;
+            font-weight: 600 !important;
+            border: 2px solid rgb(232, 81, 34);
+            border-radius: 10px;
+            font-size: 20px;
+        }
+
+        .btn-submit-form:hover {
+            box-shadow: 0 -4px 10px -6px #2c3034;
+            color: white;
+        }
+    </style>
+    <div class="container-fluid campaign-div">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="{% static 'images/Advertisement/helmet.jpg' %}" alt="Advertisement" style="width: 100%">
+            </div>
+            <div class="col-md-6">
+                <form method="post" class="form-group" action="{% url 'App_main:comment-send' %}">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        <legend>Please fill out the form below</legend>
+                        <!-- input HTML -->
+                        <label for="id-your-name">Your Name<sup>*</sup></label>
+                        <input type="text" name="name" id="id-your-name" placeholder="Your Name" required>
+                        <label for="id-your-Phone-Number">Your Mobile Number<sup>*</sup></label>
+                        <input type="text" name="name" id="id-your-Phone-Number" placeholder="Your Phone Number"
+                               required>
+                        <label for="id-address">Your Address<sup>*</sup></label>
+                        <input type="text" name="name" id="id-address" placeholder="Address">
+                        <label for="id-your-city">City</label>
+                        <input type="text" name="name" id="id-your-city" placeholder="City">
+                        <label for="id-pincode">Pincode</label>
+                        <input type="text" name="name" id="id-pincode" placeholder="Pincode">
+                        <label>Specialized brands<sup>*</sup></label>
+                        <div class="brands">
+                            <div class="row">
+                                <div><input type="checkbox" name="brands" value="TVS"><label>TVS</label></div>
+                                <div><input type="checkbox" name="brands" value="Honda"><label>Honda</label></div>
+                                <div><input type="checkbox" name="brands" value="Royal Enfield"><label>Royal Enfield</label></div>
+                                <div><input type="checkbox" name="brands" value="Suzuki"><label>Suzuki </label></div>
+                                <div><input type="checkbox" name="brands" value="Kawasaki"><label>Kawasaki </label></div>
+                                <div><input type="checkbox" name="brands" value="Yamaha"><label>Yamaha </label></div>
+                                <div><input type="checkbox" name="brands" value="Hero"><label>Hero </label></div>
+                                <div><input type="checkbox" name="brands" value="Mahindra"><label>Mahindra </label></div>
+                            </div>
+                            <div class="row">
+                                <div><input type="checkbox" name="brands" value="Harley-Davidson"><label>Harley-Davidson </label>
+                                </div>
+                                <div><input type="checkbox" name="brands" value="KTM"><label>KTM</label></div>
+                                <div><input type="checkbox" name="brands" value="Bajaj "><label>Bajaj </label></div>
+                                <div><input type="checkbox" name="brands" value="Aprilia "><label>Aprilia </label></div>
+                                <div><input type="checkbox" name="brands" value="Jawa "><label>Jawa </label></div>
+                                <div><input type="checkbox" name="brands" value="Ducati "><label>Ducati </label></div>
+                                <div><input type="checkbox" name="brands" value="Triumph"><label>Triumph </label></div>
+                                <div><input type="checkbox" name="brands" value="Piaggio"><label>Piaggio </label></div>
+                                <div><input type="checkbox" name="brands" value="BMW"><label>BMW</label></div>
+                            </div>
+                        </div>
+
+                        <label for="id-campaign-comment">Comment<sup>*</sup></label>
+                        <textarea name="comment" id="id-campaign-comment" rows="4"
+                                  style="width: 100%; padding: 5px; border-radius: 10px; border: 1px solid gray"
+                                  required></textarea>
+                    </fieldset>
+
+                    <div class="form-group">
+                        <button class="btn-submit-form" type="submit">
+                            Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
